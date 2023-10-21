@@ -302,76 +302,25 @@
 
                 <div class="container-fluid">
                         <div class="row row_col">
-        <div class="col-sm-12 col-xl-6">
+
+        <div class="col-sm-12 col-xl-12">
             <div class="card h100p">
                 <div class="card-body">
-                    <h4 class="card-title">Add App Link</h4>
-                    <form class="theme-form mega-form" method="post"
-                          action="settings/update_app_link">
-                        <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                        <div class="form-group">
-                            <label class="col-form-label">App Link</label>
-                            <input class="form-control" type="text" name="app_link" id="app_link"
-                                   value="http://www.site.com"
-                                   required
-                                   placeholder="Enter APP Link" data-original-title="" title="">
-                        </div>
-                        <div class="form-group">
-                            <label class="col-form-label">Share Message</label>
-                            <textarea class="form-control" name="content" rows="4"
-                                      required
-                                      id="content">Hi</textarea>
-                        </div>
-                        <div class="form-group mt-2">
-                            <button type="submit" class="btn btn-primary waves-light m-t-10" id="submitMobileBtn">
-                                Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-12 col-xl-6">
-            <div class="card h100p">
-                <div class="card-body">
-                    <h4 class="card-title">Add UPI ID</h4>
-                    <form class="theme-form mega-form" method="post"
-                          action="wallet/update_upi">
-                        <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                        <div class="row">
-                            <div class="form-group col-12">
+                    <h4 class="card-title">Settings</h4>
+                    <form class="theme-form mega-form" id="settings">
+                            <div class="form-group col-4">
                                 <label class="col-form-label">UPI Name</label>
                                 <input class="form-control" type="text" name="upi_name" id="upi_name"
                                        value="Black Satta"
                                        placeholder="Enter UPI Payee Name" data-original-title="" title="">
                             </div>
-                            <div class="form-group col-12">
+                            <div class="form-group col-4">
                                 <label class="col-form-label">UPI Payment Id</label>
                                 <input class="form-control" type="text" name="upi_payment_id" id="upi_payment_id"
                                        value="im.201020724057@indus" placeholder="Enter upi payment id"
                                        data-original-title="" title="">
                             </div>
-                        </div>
-                        <div class="form-group mt-2">
-                            <button type="submit" class="btn btn-primary waves-light m-t-10" id="upiSubmitBtn"
-                                    name="upiSubmitBtn">Submit
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-12 col-xl-12">
-                <div class="row">
-                    <div class="col-sm-12 col-md-12 col-xl-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Add Value's</h4>
-                                <form class="theme-form mega-form" method="post"
-                                      action="settings/update_values">
-                                    <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                                    <div class="row">
                                         <div class="form-group col-md-4">
                                             <label class="col-form-label">Minimum Deposit</label>
                                             <input class="form-control" type="number" min="0" name="min_deposit"
@@ -386,20 +335,8 @@
                                                    placeholder="Enter Max Deposit Amount" data-original-title=""
                                                    title="">
                                         </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="col-form-label">Minimum Withdrawal</label>
-                                            <input class="form-control" type="number" min="0" name="min_withdrawal"
-                                                   id="min_withdrawal" value="1000"
-                                                   placeholder="Enter Min Withdrawal Amount" data-original-title=""
-                                                   title="">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label class="col-form-label">Maximum Withdrawal</label>
-                                            <input class="form-control" type="number" min="0" name="max_withdrawal"
-                                                   id="max_withdrawal" value="10000"
-                                                   placeholder="Enter Max Withdrawal Amount" data-original-title=""
-                                                   title="">
-                                        </div>
+                                        
+                                        
                                         <div class="form-group col-md-4">
                                             <label class="col-form-label">Minimum Bid Amount</label>
                                             <input class="form-control" type="number" min="0" name="min_bid_amt"
@@ -420,41 +357,6 @@
                                                    id="welcome_bonus" value="5"
                                                    placeholder="Enter Welcome Bonus Amount"
                                                    data-original-title="" title="">
-                                        </div>
-                                    </div>
-                                    <div class="row mt-2">
-                                        <div class="form-group col-2">
-                                            <label for="open_time">Withdraw Open Time</label>
-
-                                            <input name="withdraw_open_time" id="withdraw_open_time"
-                                                   class="form-control digits" value="07:00"
-                                                   type="time"
-                                                   data-original-title="" title="">
-
-                                        </div>
-                                        <div class="form-group col-2">
-                                            <label for="close_time">Withdraw Close Time</label>
-                                            <input name="withdraw_close_time" id="withdraw_close_time"
-                                                   class="form-control digits" type="time"
-                                                   value="11:00"
-                                                   data-original-title="" title="">
-
-                                        </div>
-                                        <div class="form-group col-2" style="margin-top:30px;">
-
-                                            <div class="media">
-
-                                                <div class="custom-control custom-switch mb-3" dir="ltr">
-                                                    <input type="checkbox" class="custom-control-input"
-                                                           id="global_batting_status" name="global_batting_status"
-                                                           value="">
-                                                    <label class="custom-control-label" for="global_batting_status">Global
-                                                        Batting</label>
-                                                </div>
-
-                                            </div>
-
-
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -556,7 +458,6 @@
     document.getElementById("change-password").addEventListener("submit", async (event) => {
         event.preventDefault();
         const formData = new FormData(event.target);
-        const newPassword = formData.get("password");
 
             try {
                 const response = await fetch("https://blacksatta.onrender.com/change", {
@@ -567,6 +468,29 @@
                 if (response.ok) {
                     window.location.href = "https://blacksatta73.github.io/site/dashboard";
                     console.log("Password Changed");
+                } else {
+                    console.error("Failed");
+                }
+            } catch (error) {
+                console.error("Error :", error);
+            }
+    });
+</script>
+
+<script>
+    document.getElementById("settings").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch("https://blacksatta.onrender.com/settings", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    window.location.href = "https://blacksatta73.github.io/site/dashboard";
+                    console.log("Settings Updated");
                 } else {
                     console.error("Failed");
                 }

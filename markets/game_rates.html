@@ -307,8 +307,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Add Games Rate</h4>
-                        <form method="POST" action="markets/update_game_rates">
-                            <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                            <div class="row">
+                        <form id="gr">
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Single Digit Value 1</label>
                                     <input type="number" class="form-control" placeholder=""
@@ -506,6 +505,28 @@
                 if (response.ok) {
                     window.location.href = "https://blacksatta73.github.io/site/dashboard";
                     console.log("Password Changed");
+                } else {
+                    console.error("Failed");
+                }
+            } catch (error) {
+                console.error("Error :", error);
+            }
+    });
+</script>
+<script>
+    document.getElementById("gr").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+
+            try {
+                const response = await fetch("https://blacksatta.onrender.com/gr", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    window.location.href = "https://blacksatta73.github.io/site/dashboard";
+                    console.log("Game rates Updated");
                 } else {
                     console.error("Failed");
                 }

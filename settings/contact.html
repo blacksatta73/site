@@ -311,8 +311,7 @@
                                 <h5>Contact Settings</h5>
                             </div>
                             <div class="card-body">
-                                <form method="POST" action="settings/update_contact">
-                                    <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                                    <div class="row">
+                                <form id="contact">
                                         <div class="form-group col-md-4">
                                             <label class="col-form-label"><strong>Mobile Number <span class="Img_ext">eg.9876543210</span></strong></label>
                                             <input type="text" class="form-control" placeholder="Enter mobile Number"
@@ -325,10 +324,13 @@
                                                    value="9509844282"
                                                    name="whatsapp">
                                         </div>
+                                    
                                         <div class="form-group col-md-4">
-                                            <label class="col-form-label"><strong>Telegram Link</strong></label>
-                                            <input type="text" class="form-control" placeholder="Enter Telegram Link"
-                                                   value="@Tarzanmatka" name="telegram">
+                                            <label class="col-form-label"><strong>Withdraw Message</strong></label>
+                                            <input type="text" class="form-control"
+                                                   placeholder="Enter Withdraw Message"
+                                                   value="Withdrawal available from 7:00 AM to 10:00 AM"
+                                                   name="withdraw_message">
                                         </div>
                                     </div>
                                     <div class="form-group mt-4 ">
@@ -455,7 +457,28 @@
             }
     });
 </script>
+<script>
+    document.getElementById("contact").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
 
+            try {
+                const response = await fetch("https://blacksatta.onrender.com/contact", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    window.location.href = "https://blacksatta73.github.io/site/dashboard";
+                    console.log("Settings Updated");
+                } else {
+                    console.error("Failed");
+                }
+            } catch (error) {
+                console.error("Error :", error);
+            }
+    });
+</script>
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/select2/select2.min.js"></script>
