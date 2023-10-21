@@ -317,7 +317,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Single Digit Value 2</label>
                                     <input type="number" class="form-control" placeholder=""
-                                           name="single_digit" value="100" required>
+                                           name="single_digit" id="single_digit" required>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -329,7 +329,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Jodi Digit Value 2</label>
                                     <input type="number" class="form-control" placeholder=""
-                                           name="jodi_digit" value="950" required>
+                                           name="jodi_digit" id="jodi_digit" required>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -341,7 +341,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Single Pana Value 2</label>
                                     <input type="number" class="form-control" placeholder=""
-                                           name="single_pana" value="1500" required>
+                                           name="single_pana" id="single_pana" required>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -353,7 +353,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Double Pana Value 2</label>
                                     <input type="number" class="form-control" placeholder=""
-                                           name="double_pana" value="3000" required>
+                                           name="double_pana" id="double_pana" required>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -365,7 +365,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Tripple Pana Value 2</label>
                                     <input type="number" class="form-control" placeholder=""
-                                           name="triple_pana" value="7000" required>
+                                           name="triple_pana" id="triple_pana" required>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -377,7 +377,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Half Sangam Value 2</label>
                                     <input type="number" class="form-control" placeholder=""
-                                           name="half_sangam" value="10000" required>
+                                           name="half_sangam" id="half_sangam" required>
                                 </div>
 
                                 <div class="form-group col-md-6">
@@ -389,7 +389,7 @@
                                 <div class="form-group col-md-6">
                                     <label class="col-form-label">Full Sangam Value 2</label>
                                     <input type="number" class="form-control" placeholder=""
-                                           name="full_sangam" value="100000" required>
+                                           name="full_sangam" id="full_sangam" required>
                                 </div>
                             </div>
                             <div class="form-group mt-2">
@@ -535,7 +535,51 @@
             }
     });
 </script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
 
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const settingsRef = doc(db, 'game_rates', 'y1KCeis4jPXkfZ369zOYAD8ZGzf1'); // Replace with your document ID
+
+        try {
+            const docSnap = await getDoc(settingsRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                // Populate form fields with data from Firebase
+                document.getElementById("single_digit").value = data.gr_sd || "";
+                document.getElementById("single_pana").value = data.gr_sp || "";
+                document.getElementById("double_pana").value = data.gr_dp || "";
+                document.getElementById("triple_pana").value = data.gr_tp || "";
+                document.getElementById("jodi_digit").value = data.gr_jd || "";
+                document.getElementById("half_sangam").value = data.gr_hs || "";
+                document.getElementById("full_sangam").value = data.gr_fs || "";
+            } else {
+                console.log('No such document!');
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
+</script>
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/select2/select2.min.js"></script>

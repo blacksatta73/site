@@ -318,7 +318,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-form-label">Single Digit Value 2</label>
                                         <input type="number" class="form-control" placeholder=""
-                                               value="100"
+                                               id="single"
                                                name="single" required>
                                     </div>
 
@@ -331,7 +331,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-form-label">Single Pana Value 2</label>
                                         <input type="number" class="form-control" placeholder=""
-                                               value="1500"
+                                              id="single_pana"
                                                name="single_pana" required>
                                     </div>
 
@@ -344,7 +344,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-form-label">Double Pana Value 2</label>
                                         <input type="number" class="form-control" placeholder=""
-                                               value="3000"
+                                                id="double_pana"
                                                name="double_pana" required>
                                     </div>
 
@@ -357,7 +357,7 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-form-label">Tripple Pana Value 2</label>
                                         <input type="number" class="form-control" placeholder=""
-                                               value="7000"
+                                               id="triple_pana"
                                                name="triple_pana" required>
                                     </div>
 
@@ -506,6 +506,48 @@
                 console.error("Error :", error);
             }
     });
+</script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const settingsRef = doc(db, 'game_rates_sg', 'y1KCeis4jPXkfZ369zOYAD8ZGzf1'); // Replace with your document ID
+
+        try {
+            const docSnap = await getDoc(settingsRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                // Populate form fields with data from Firebase
+                document.getElementById("single").value = data.gr_sd || "";
+                document.getElementById("single_pana").value = data.gr_sp || "";
+                document.getElementById("double_pana").value = data.gr_dp || "";
+                document.getElementById("triple_pana").value = data.gr_tp || "";
+            } else {
+                console.log('No such document!');
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
 </script>
 
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>

@@ -91,48 +91,6 @@
                     <a class="dropdown-item text-danger" href="javascript:void();" onclick="logout()"><i class="bx bx-power-off font-size-16 align-middle me-1 text-danger"></i> <span key="t-logout">Logout</span></a>
 
                     <!-- Your existing HTML elements for Firebase authentication (initialize Firebase SDK, login form, etc.) -->
-
-                    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js"></script>
-                    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js"></script>
-                    <script type="module" src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js"></script>
-
-                    <!-- Your custom JavaScript code -->
-                    <script type="module" src="https://blacksatta73.github.io/site/services/firebase.js"></script>
-                    <script type="module">
-                        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-                        import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
-                      
-                        // Firebase configuration
-                        const firebaseConfig = {
-                            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
-                            authDomain: "black-satta-f197b.firebaseapp.com",
-                            projectId: "black-satta-f197b",
-                            storageBucket: "black-satta-f197b.appspot.com",
-                            messagingSenderId: "310887564056",
-                            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
-                            measurementId: "G-HWJ4VQGEDH"
-                        };
-                      
-                        // Initialize Firebase
-                        const app = initializeApp(firebaseConfig);
-                        const auth = getAuth(app);
-                      
-                        // Function to handle Firebase logout
-                        window.logout = function(){
-                          signOut(auth)
-                            .then(() => {
-                              // Sign-out successful. Redirect or perform any additional actions here.
-                              window.location.href = "https://blacksatta73.github.io/site/";
-                              console.log("User signed out successfully");
-                            })
-                            .catch(error => {
-                              // An error happened. Handle the error here.
-                              console.error("Error during logout:", error);
-                            });
-                        }
-                      
-                        // Your existing code for handling authentication (login, etc.)
-                      </script>
                      </div>
             </div>
 
@@ -313,24 +271,22 @@
                             <div class="card-body">
                                 <form id="contact">
                                         <div class="form-group col-md-4">
-                                            <label class="col-form-label"><strong>Mobile Number <span class="Img_ext">eg.9876543210</span></strong></label>
+                                            <label class="col-form-label"><strong>Mobile Number </strong></label>
                                             <input type="text" class="form-control" placeholder="Enter mobile Number"
-                                                   value="99999999" name="mobile">
+                                                   name="mobile" id="mobile">
                                         </div>
                                         <div class="form-group col-md-4">
                                             <label class="col-form-label"><strong>Whatsapp Number</strong></label>
                                             <input type="text" class="form-control"
                                                    placeholder="Enter Whatsapp Number"
-                                                   value="9509555"
-                                                   name="whatsapp">
+                                                   name="whatsapp" id="whatsapp">
                                         </div>
                                     
                                         <div class="form-group col-md-4">
                                             <label class="col-form-label"><strong>Withdraw Message</strong></label>
                                             <input type="text" class="form-control"
                                                    placeholder="Enter Withdraw Message"
-                                                   value="Withdrawal available from 7:00 AM to 10:00 AM"
-                                                   name="withdraw_message">
+                                                   name="withdraw_message" id="withdraw_message">
                                         </div>
                                     </div>
                                     <div class="form-group mt-4 ">
@@ -434,6 +390,47 @@
 <script src="https://blacksatta73.github.io/site/assets/libs/metismenu/metismenu.min.js"></script>
 <script src="https://blacksatta73.github.io/site/assets/libs/simplebar/simplebar.min.js"></script>
 <script src="https://blacksatta73.github.io/site/assets/libs/node-waves/node-waves.min.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js"></script>
+<script type="module" src="https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js"></script>
+
+<!-- Your custom JavaScript code -->
+<script type="module" src="https://blacksatta73.github.io/site/services/firebase.js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-auth.js";
+    import { getFirestore } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    // Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+        authDomain: "black-satta-f197b.firebaseapp.com",
+        projectId: "black-satta-f197b",
+        storageBucket: "black-satta-f197b.appspot.com",
+        messagingSenderId: "310887564056",
+        appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+        measurementId: "G-HWJ4VQGEDH"
+    };
+    
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    // Function to handle Firebase logout
+    window.logout = function(){
+        signOut(auth)
+        .then(() => {
+            // Sign-out successful. Redirect or perform any additional actions here.
+            window.location.href = "https://blacksatta73.github.io/site/";
+            console.log("User signed out successfully");
+        })
+        .catch(error => {
+            // An error happened. Handle the error here.
+            console.error("Error during logout:", error);
+        });
+    }
+    
+    // Your existing code for handling authentication (login, etc.)
+    </script>
 <script>
     document.getElementById("change-password").addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -479,6 +476,49 @@
             }
     });
 </script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        const settingsRef = doc(db, 'setting', 'y1KCeis4jPXkfZ369zOYAD8ZGzf1'); // Replace with your document ID
+
+        try {
+            const docSnap = await getDoc(settingsRef);
+            if (docSnap.exists()) {
+                const data = docSnap.data();
+                // Populate form fields with data from Firebase
+                document.getElementById('mobile').value = data.mo_number || '';
+                document.getElementById('whatsapp').value = data.wa_number || '';
+                document.getElementById('withdraw_message').value = data.withdraw_time || '';
+            } else {
+                console.log('No such document!');
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
+</script>
+
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/select2/select2.min.js"></script>
