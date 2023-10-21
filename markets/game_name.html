@@ -324,7 +324,6 @@
 
                         </tr>
                         </thead>
-                        <tbody></tbody>
                     </table>
                 </div>
             </div>
@@ -339,10 +338,9 @@
                     <h5 class="modal-title" id="staticBackdropLabel">Add New Game</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="POST" action="markets/game_add">
-                    <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                    <div class="modal-body">
+                <form method="POST" id="gnames">
+                    <div class="modal-body">
                         <div class="row">
-                            <input type="hidden" name="game_id" value="">
                             <div class="form-group col-12">
                                 <label for="game_name">Game Name</label>
                                 <input type="text" name="game_name" id="game_name" class="form-control" required
@@ -370,6 +368,33 @@
                         </button>
                     </div>
                 </form>
+                <script>
+                    document.getElementById('gnames').addEventListener('submit', function(event) {
+                        event.preventDefault(); // Prevent the default form submission
+                
+                        // Get form data
+                        const formData = new FormData(this);
+                
+                        // Send form data using Fetch API
+                        fetch('https://blacksatta.onrender.com/gameaddad', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                // Form submission was successful, redirect to the desired link
+                                window.location.href = 'https://blacksatta73.github.io/site/dashboard'; // Change this URL to the desired redirect URL
+                            } else {
+                                // Handle errors if the form submission fails
+                                console.error('Form submission failed');
+                            }
+                        })
+                        .catch(error => {
+                            // Handle network errors
+                            console.error('Network error:', error);
+                        });
+                    });
+                </script>
             </div>
         </div>
     </div>
@@ -481,7 +506,43 @@
             }
     });
 </script>
-
+<script>
+    import {  getFirestore, collection, doc, addDoc } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    const db = getFirestore(app)
+    document.getElementById("gnames").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+      
+        // Get form data
+        const name = formdata.game_name;
+        const open = formdata.open_time;
+        const close = formData.close_time;
+        const currentTimestamp = new Date().getTime();
+        // Add data to Firestore
+        const namee = name.toLowerCase();
+        const formdataa = {
+            gameName: namee,
+            gameNumber: "***-*",
+            open: open,
+            close: close,
+            time: false,
+            bidopen: false,
+            oc: false,
+            exists: true,
+            timestamp: currentTimestamp
+        }
+        const sg = collection(db,"game_names")
+        const userDocRef = doc(sg, namee)
+        setDoc(userDocRef, formdataa)
+        .then(() => {
+          console.log("Data successfully written to Firestore!");
+          document.getElementById('gnames').reset();
+        })
+        .catch((error) => {
+          console.error("Error writing document: ", error);
+        });
+      });
+</script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/datatables.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/datatables/datatables.min.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
