@@ -133,7 +133,7 @@
                       
                         // Your existing code for handling authentication (login, etc.)
                       </script>
-                     </div>
+                    </div>
             </div>
 
             <div class="dropdown d-inline-block">
@@ -158,7 +158,6 @@
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="change-password">
-                    <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                    <input type="hidden" value="1" id="data_id">
                     <div class="mb-3">
                         <label for="current_password">Current Password</label>
                         <input id="current-password" type="password"
@@ -248,7 +247,7 @@
     
                             <li><a href="https://blacksatta73.github.io/site/wallet/withdraw_list.html">Withdraw Request</a></li>
                             <li><a href="https://blacksatta73.github.io/site/wallet/show_add_funds.html">Add Fund (User Wallet)</a></li>
-                            <li><a href="https://blacksatta73.github.io/site/bids/revert.html">Bid Revert</a></li>
+                            
                         </ul>
                     </li>
                     <li>
@@ -293,7 +292,6 @@
             </div>
         </div>
     </div>
-
     <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -303,115 +301,195 @@
 
                 <div class="container-fluid">
                     
-    <div class="row">
+        <div class="card">
 
-        <div class="col-sm-12 col-xl-12 col-md-12">
+            <div class="card-body">
+                <h5>Customer Sell Report</h5>
+                <form class="theme-form mega-form" id="MainBidHistoryReport">
+                    <div class="row">
+                        <div class="form-group col-md-2" style="margin-top:auto;">
 
-            <div class="row">
+                            <label>Date</label>
 
-                <div class="col-sm-12">
 
-                    <div class="card">
+                            <div class="input-group">
 
-                        <div class="card-header p-t-15 p-b-15">
+                                <input type="date" class="form-control" name="start_date"
+                                       id="start_date"
+                                       placeholder="Enter Start Date">
 
+                            </div>
 
                         </div>
 
-                        <div class="card-body">
-                            <h5>Customer Sell Report</h5>
-                            <form class="theme-form mega-form" id="customerSellFrm" name="customerSellFrm"
-                                  method="post">
 
-                                <div class="row">
-                                    <div class="form-group col-md-2" style="margin-top:auto;">
-
-                                        <label>Date</label>
+                        <div class="form-group col-md-4">
+                            <label class="col-form-label">Game Name</label>
+                            <select id="game_name" name="game_name" class="form-control">
+                                <option >Select</option>
+                            </select>
+                        </div>
 
 
-                                        <input class="form-control" type="date" value="2023-10-20" name="start_date"
-                                               id="start_date" placeholder="Enter Start Date">
+                        <div class="form-group col-md-4">
+                            <label class="col-form-label">Game Type</label>
+                            <select id="game_type" name="game_type" class="form-control">
+                                <option value="Open">Open</option>
+                                <option value="Close">Close</option>
+                            
+                            </select>
+                        </div>
 
 
-                                    </div>
+                        <div class="form-group col-md-2" style="align-self:flex-end;">
 
-
-                                    <div class="form-group col-md-2">
-                                        <label class="col-form-label">Game Name</label>
-                                        <select id="game_name" name="game_name" class="form-control">
-                                            <option value="">-Select Game Name-</option>
-                                            <option value="all">All Games</option>
-                                                                
-                                            
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group col-md-2">
-                                        <label class="col-form-label">Game Type</label>
-                                        <select id="game_type" name="game_type" class="form-control">
-                                            <option value="all">All</option>
-                                            <option value="single">Single Digit</option>
-                                            <option value="double">Jodi Digit</option>
-                                            <option value="single_panel">Single Pana</option>
-                                            <option value="double_panel">Double Pana</option>
-                                            <option value="triple_panel">Triple Pana</option>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group col-md-2 session_get">
-                                        <label class="col-form-label">Session</label>
-                                        <select id="market_status" name="market_status" class="form-control">
-                                            <option value="">-Select Session-</option>
-                                            <option value="Open">Open</option>
-                                            <option value="Close">Close</option>
-                                        </select>
-                                    </div>
-
-
-                                    <div class="form-group col-md-2" style="align-self:flex-end;">
-
-                                        <button type="submit" class="btn btn-info waves-light m-t-25">Submit</button>
-
-                                    </div>
-
-                                </div>
-
-                            </form>
-                            <script>
-                                document.getElementById('customerSellFrm').onsubmit = function () {
-                                    var date = document.getElementById('start_date').value;
-                                    var name = document.getElementById('game_name').value;
-                                    var market = document.getElementById('market_status').value;
-                                    var type = document.getElementById('game_type').value
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: '/api/sell_report',
-                                        data: {name: name, market: market, type: type, date: date},
-                                        success: function (htmlresponse) {
-                                            console.log(htmlresponse)
-                                            $('#sellReport').html(htmlresponse);
-                                        }
-                                    });
-
-                                    return false;
-                                };
-                            </script>
+                            <button type="submit" class="btn btn-primary waves-light m-t-25">Submit</button>
 
                         </div>
 
                     </div>
+                </form>
+            </div>
 
+        </div>
+        <div class="card">
+
+            <div class="card-header p-t-15 p-b-15">
+
+            </div>
+
+            <div class="card-body">
+                <h5>Single Digit</h5>
+                <div class="table-responsive">
+                    <table id="single_digit" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Bet Digit</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
 
+            <div class="card-body">
+                <h5>Jodi Digit</h5>
+                <div class="table-responsive">
+                    <table id="jodi_digit" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Bet Digit</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h5>Single Pana</h5>
+                <div class="table-responsive">
+                    <table id="single_pana" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Bet Digit</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h5>Double Pana</h5>
+                <div class="table-responsive">
+                    <table id="double_pana" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Bet Digit</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h5>Triple Pana</h5>
+                <div class="table-responsive">
+                    <table id="triple_pana" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Bet Digit</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h5>Half Sangam</h5>
+                <div class="table-responsive">
+                    <table id="half_sangam" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Bet Digit</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <h5>Full Sangam</h5>
+                <div class="table-responsive">
+                    <table id="full_sangam" class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Username</th>
+                            <th>Bet Digit</th>
+                            <th>Points</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </div>
 
-    </div>
-    <div>
-        <span id="sellReport"></span>
-    </div>
+
+    
+
+
                 </div>
                 <!-- container-fluid -->
             </div>
@@ -518,7 +596,7 @@
                 console.error("Error :", error);
             }
     });
-</script>
+</script> 
 
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
@@ -528,12 +606,655 @@
         $(document).ready(function () {
             $.ajax({
                 type: 'get',
-                url: '/api/test',
+                url: '/api/date',
                 success: function (response) {
-                    $('#sellReport').html(response)
+                    document.getElementById('start_date').value = response;
                 }
             })
+
+            $.get('/api/markets/games-list', function (returnedData) {
+                $('#game_name').select2({
+                    placeholder: 'Select Game Name', data: returnedData
+                });
+            }).fail(function () {
+                console.log("error");
+            });
         })
+    </script>
+    
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    var types = document.getElementById('game_type').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'single_digit'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('single_digit').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { points,number,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        cellusername.textContent = username;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    var types = document.getElementById('game_type').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'jodi_digit'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('jodi_digit').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { points,number,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        cellusername.textContent = username;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    var types = document.getElementById('game_type').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'single_pana'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('single_pana').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { points,number,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        cellusername.textContent = username;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    var types = document.getElementById('game_type').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'double_pana'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('double_pana').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { points,number,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        cellusername.textContent = username;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    var types = document.getElementById('game_type').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'triple_pana'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('triple_pana').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { points,number,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        cellusername.textContent = username;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    var types = document.getElementById('game_type').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'half_sangam'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('half_sangam').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { points,number,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        cellusername.textContent = username;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    var types = document.getElementById('game_type').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'full_sangam'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('full_sangam').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { points,number,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        cellusername.textContent = username;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        // 
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+    
+            const gameNameSelect = document.getElementById("game_name");
+
+            try {
+                    const settingsRef = collection(db, 'game_names');
+                    const q = query(settingsRef, where('exists', '==', true));
+                    const querySnapshot = await getDocs(q);
+
+                    
+    
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+                    querySnapshot.forEach(doc => {
+                        const gameName = doc.data().gameName;
+                        const option = document.createElement('option');
+                        option.value = gameName;
+                        option.textContent = gameName;
+                        gameNameSelect.appendChild(option);
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+    
     </script>
 
 <!-- App js -->

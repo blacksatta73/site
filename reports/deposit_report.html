@@ -247,7 +247,7 @@
     
                             <li><a href="https://blacksatta73.github.io/site/wallet/withdraw_list.html">Withdraw Request</a></li>
                             <li><a href="https://blacksatta73.github.io/site/wallet/show_add_funds.html">Add Fund (User Wallet)</a></li>
-                            <li><a href="https://blacksatta73.github.io/site/bids/revert.html">Bid Revert</a></li>
+                            
                         </ul>
                     </li>
                     <li>
@@ -311,7 +311,7 @@
 
             <div class="card-body">
                 <h5>Auto Deposit History</h5>
-                <form class="theme-form mega-form" id="AutoDepositHistory" method="post">
+                <form class="theme-form mega-form" id="AutoDepositHistory" >
                     <div class="row">
                         <div class="form-group col-md-2" style="margin-top:auto;">
 
@@ -361,7 +361,6 @@
                             <th>User Phone</th>
                             <th>User Name</th>
                             <th>(₹) Amount</th>
-                            <th>Paid By</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -373,65 +372,7 @@
         </div>
     </div>
 
-    <script>
-        class fruitCollection extends Array {
-            sum(key) {
-                return this.reduce((a, b) => a + (b[key] || 0), 0);
-            }
-        }
-
-        document.getElementById('AutoDepositHistory').onsubmit = function () {
-            var date = document.getElementById('transaction_date').value;
-
-            $.ajax({
-                type: 'post',
-                url: '/api/auto_deposit_data',
-                data: {date: date},
-                success: function (response) {
-                    const val = response.reduce((accum, item) => accum + Math.floor(item.amount), 0);
-                    document.getElementById('total_amount').innerHTML = 'Total Amount ' + val
-                    console.log(response)
-                    $('#depositHistory').DataTable({
-
-                        paging: true,
-                        sortable: true,
-                        searching: true,
-                        destroy: true,
-                        data: response,
-                        columns: [
-                            {data: "id"},
-                            {data: "created_at"},
-                            {data: "user.username"},
-                            {data: "user.name"},
-                            {
-                                data: "amount",
-                                render: function (data) {
-                                    return '<span>' + 'Rs. ' + Math.round(data) + '</span>'
-                                }
-                            },
-                            {
-                                data: "payment_app",
-                                render: function (data) {
-                                    if (data == '2131296845') {
-                                        return 'Paytm'
-                                    } else if (data == '2131296850') {
-                                        return 'PhonePe'
-                                    } else if (data == '2131296608') {
-                                        return 'Google Pay'
-                                    } else {
-                                        return 'Other'
-                                    }
-                                }
-                            },
-                        ]
-                    });
-
-                }
-            });
-            return false;
-        };
-
-    </script>
+    
 
 
                 </div>
@@ -540,6 +481,88 @@
                 console.error("Error :", error);
             }
     });
+</script>
+<script type = "module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    document.getElementById('AutoDepositHistory').onsubmit = function () {
+        event.preventDefault();
+        
+
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                var date = document.getElementById('transaction_date').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'deposit');
+                    const q = query(settingsRef, where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('depositHistory').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+                    var val = 0;
+                    let rowNumber = 1;
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(doc => {
+                            const data = doc.data();
+                            const { credits,timestamp, mno,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const celldate = newRow.insertCell();
+                            const cellmno = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellcredits = newRow.insertCell();
+                            
+                            cellNumber.textContent = rowNumber++;
+                            celldate.textContent = timestamp.toDate().toDateString().substring(0,11);
+                            cellmno.textContent = mno;
+                            cellusername.textContent = username;
+                            cellcredits.textContent = credits;
+                            val=val+credits;
+                            });
+                    }  
+                    
+                    document.getElementById('total_amount').innerHTML = 'Total Amount ' + val;
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();  
+        
+    };
+
 </script>
 
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>

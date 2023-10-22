@@ -243,7 +243,7 @@
     
                             <li><a href="https://blacksatta73.github.io/site/wallet/withdraw_list.html">Withdraw Request</a></li>
                             <li><a href="https://blacksatta73.github.io/site/wallet/show_add_funds.html">Add Fund (User Wallet)</a></li>
-                            <li><a href="https://blacksatta73.github.io/site/bids/revert.html">Bid Revert</a></li>
+                            
                         </ul>
                     </li>
                     <li>
@@ -303,7 +303,7 @@
                 <h4 class="mb-0 font-size-18">User List</h4>
 
                 <h4 class="card-title d-flex align-items-center justify-content-between">&nbsp; <a
-                            href="user/unapproved" class="btn btn-primary waves-effect waves-light btn-sm">Un-approved
+                            href="https://blacksatta73.github.io/site/user/unapproved" class="btn btn-primary waves-effect waves-light btn-sm">Un-approved
                         Users List</a></h4>
                 <div class="table-responsive">
                     <table id="userList" class="table table-bordered">
@@ -314,26 +314,10 @@
                             <th>Mobile</th>
                             <th>Date</th>
                             <th>Balance</th>
-                            <th>Betting</th>
-                            <th>Active</th>
                             <th>View</th>
-                            <th>Action</th>
                         </tr>
                         </thead>
                         <tbody>
-                            <!-- <a href="http://dashboard.lotusmatka.in/user/profile/2532">
-                                Diwakar Batha
-                                <i class="mdi mdi-share-circle font-size-18"></i>
-                            </a>
-                        </td>
-                        <td>9743520194</td>
-                        <td>27-Sep-2023 03:09 PM</td>
-                        <td>5</td>
-                        <td>
-                                                                    <a href="http://dashboard.lotusmatka.in/user/deactivate/2532"><span
-                                            class="badge badge-pill badge-soft-success font-size-12">Yes</span></a>
-                                                            </td> -->
-                                
                             </tbody>
                     </table>
                 </div>
@@ -447,6 +431,77 @@
                 console.error("Error :", error);
             }
     });
+</script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                            
+
+        try {
+                const settingsRef = collection(db, 'users');
+                const q = query(settingsRef, where('approved', '==', true));
+                const querySnapshot = await getDocs(q);
+                const tableBody = document.getElementById('userList').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = ''; // Clear the table body before populating new data
+        
+                let rowNumber = 1;
+                if (querySnapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                }  
+                querySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const {userId, username, phone, createdTimestamp, userCredits } = data;
+                    const newRow = tableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const cellusername = newRow.insertCell();
+                    const cellphone = newRow.insertCell();
+                    const celltime = newRow.insertCell();
+                    const cellbalance = newRow.insertCell();
+                    const cellAction = newRow.insertCell();
+
+                    cellNumber.textContent = rowNumber++;
+                    cellusername.textContent = username;
+                    cellphone.textContent = phone;
+                    celltime.textContent = createdTimestamp.toDate().toDateString().substring(0,11);
+                    cellbalance.textContent = userCredits;
+
+                    const button = document.createElement('button');
+                    button.classList.add("mdi", "mdi-eye", "font-size-18", "text-primary");
+                    button.style.border = 'none'; /* Remove border */
+                    button.style.backgroundColor = '#ffffff'; /* Set background color to transparent */
+                    button.style.padding = '0';
+                    const link = `https://blacksatta73.github.io/site/user/profile/userProfile.html?userId=${userId}`;
+                    button.onclick = function() {
+                        window.location.href = link;
+                    };
+
+                    // Append the button to the cellAction cell
+                    cellAction.appendChild(button);
+            });
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
 </script>
 
     <script src="https://blacksatta73.github.io/site/assets/js/pages/datatables.init.js"></script>

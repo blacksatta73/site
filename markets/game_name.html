@@ -247,7 +247,7 @@
     
                             <li><a href="https://blacksatta73.github.io/site/wallet/withdraw_list.html">Withdraw Request</a></li>
                             <li><a href="https://blacksatta73.github.io/site/wallet/show_add_funds.html">Add Fund (User Wallet)</a></li>
-                            <li><a href="https://blacksatta73.github.io/site/bids/revert.html">Bid Revert</a></li>
+                            
                         </ul>
                     </li>
                     <li>
@@ -318,7 +318,7 @@
                             <th>Game Name</th>
                             <th>Today Open</th>
                             <th>Today Close</th>
-                            <th>Active</th>
+                            <th>Result</th>
                             <th>Market Status</th>
                             <th>Action</th>
 
@@ -543,6 +543,76 @@
         });
       });
 </script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                            
+
+        try {
+                const settingsRef = collection(db, 'game_names');
+                const q = query(settingsRef, where('exists', '==', true));
+                const querySnapshot = await getDocs(q);
+
+                const tableBody = document.getElementById('gameNameList').getElementsByTagName('tbody')[0];
+                tableBody.innerHTML = ''; // Clear the table body before populating new data
+        
+                let rowNumber = 1;
+
+                if (querySnapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                }  
+                querySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const { gameName, open,close, gameNumber, bidopen } = data;
+                    const newRow = tableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const cellGameName = newRow.insertCell();
+                    const cellGameTime = newRow.insertCell();
+                    const cellGameTimeclose = newRow.insertCell();
+                    const cellResult = newRow.insertCell();
+                    const cellMarketStatus = newRow.insertCell();
+                    const cellAction = newRow.insertCell();
+
+                    cellNumber.textContent = rowNumber++;
+                    cellGameName.textContent = gameName;
+                    cellGameTime.textContent = open;
+                    cellGameTimeclose.textContent = close;
+                    cellResult.textContent = gameNumber;
+                    if(bidopen===true)
+                    {
+                        cellMarketStatus.textContent = "running";
+                    }else
+                    {
+                        cellMarketStatus.textContent = "closed";
+                    }
+            });
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
+</script>
+
+
     <script src="https://blacksatta73.github.io/site/assets/js/pages/datatables.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/datatables/datatables.min.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>

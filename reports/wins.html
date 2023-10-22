@@ -133,7 +133,7 @@
                       
                         // Your existing code for handling authentication (login, etc.)
                       </script>
-                     </div>
+                    </div>
             </div>
 
             <div class="dropdown d-inline-block">
@@ -247,7 +247,7 @@
     
                             <li><a href="https://blacksatta73.github.io/site/wallet/withdraw_list.html">Withdraw Request</a></li>
                             <li><a href="https://blacksatta73.github.io/site/wallet/show_add_funds.html">Add Fund (User Wallet)</a></li>
-                            <li><a href="https://blacksatta73.github.io/site/bids/revert.html">Bid Revert</a></li>
+                            
                         </ul>
                     </li>
                     <li>
@@ -292,7 +292,6 @@
             </div>
         </div>
     </div>
-
     <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -302,17 +301,11 @@
 
                 <div class="container-fluid">
                     
-    <div class="row">
-
         <div class="card">
 
-            <div class="card-header p-t-15 p-b-15">
-
-            </div>
-
             <div class="card-body">
-                <h5>Winning History Report</h5>
-                <form class="theme-form mega-form" id="WinningHistoryReport" method="post">
+                <h5>Win History Report</h5>
+                <form class="theme-form mega-form" id="MainBidHistoryReport">
                     <div class="row">
                         <div class="form-group col-md-2" style="margin-top:auto;">
 
@@ -329,23 +322,14 @@
 
                         </div>
 
+
                         <div class="form-group col-md-4">
                             <label class="col-form-label">Game Name</label>
-                            <select id="win_history_game_name" name="win_history_game_name" class="form-control"
-                                    required>
-                                <option value="">--Select Game Name--</option>
+                            <select id="game_name" name="game_name" class="form-control">
+                                <option >Select</option>
                             </select>
-                        </div>
+                        </div> 
 
-
-                        <div class="form-group col-md-4">
-                            <label class="col-form-label">Market Time</label>
-                            <select id="game_type" name="game_type" class="form-control" required>
-                                <option value="">--Select Market Time--</option>
-                                <option value="Open">Open</option>
-                                <option value="Close">Close</option>
-                            </select>
-                        </div>
 
                         <div class="form-group col-md-2" style="align-self:flex-end;">
 
@@ -365,9 +349,9 @@
             </div>
 
             <div class="card-body">
-                <h5>Win History List</h5>
+                <h5>Win History </h5>
                 <div class="table-responsive">
-                    <table id="winHistory" class="table table-striped">
+                    <table id="bidHistory" class="table table-bordered">
                         <thead>
                         <tr>
                             <th>#</th>
@@ -377,7 +361,6 @@
                             <th>Game Type</th>
                             <th>Session</th>
                             <th>Bet Digit</th>
-                            <th>Bet Points</th>
                             <th>Win Points</th>
                         </tr>
                         </thead>
@@ -389,64 +372,8 @@
 
         </div>
 
-    </div>
 
-
-    <script>
-        function showMe(i) {
-            let value = i;
-            let sum = 0;
-
-            while (value) {
-                sum += value % 10;
-                value = Math.floor(value / 10);
-            }
-            return String(sum).substr(-1)
-        }
-
-        document.getElementById('WinningHistoryReport').onsubmit = function () {
-            var name = document.getElementById('win_history_game_name').value;
-            var date = document.getElementById('start_date').value;
-            var type = document.getElementById('game_type').value;
-
-            $.ajax({
-                type: 'post',
-                url: '/api/wins_report',
-                data: {name: name, date: date, type: type},
-
-                success: function (response) {
-                    console.log(response)
-                    $('#winHistory').DataTable({
-                        paging: true,
-                        sortable: true,
-                        searching: true,
-                        destroy: true,
-                        data: response,
-                        columns: [
-                            {data: "id"},
-                            {data: "bet_date"},
-                            {
-                                data: "user.name",
-
-                            },
-                            {data: "market.market_name"},
-                            {data: "bet_type"},
-                            {data: "market_session"},
-                            {data: "bet_digit"},
-                            {data: "bet_amount"},
-                            {
-                                data: function (data, type) {
-                                    return data.bet_rate * data.bet_amount;
-                                }
-                            }
-                        ]
-                    });
-
-                }
-            });
-            return false;
-        };
-    </script>
+    
 
 
                 </div>
@@ -555,7 +482,7 @@
                 console.error("Error :", error);
             }
     });
-</script>
+</script> 
 
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
@@ -570,7 +497,155 @@
                     document.getElementById('start_date').value = response;
                 }
             })
+
+            $.get('/api/markets/games-list', function (returnedData) {
+                $('#game_name').select2({
+                    placeholder: 'Select Game Name', data: returnedData
+                });
+            }).fail(function () {
+                console.log("error");
+            });
         })
+    </script>
+    
+
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidHistoryReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'win_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                    const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+
+                    querySnapshot.forEach(doc => {
+                        const data = doc.data();
+                        const { game_name,timestamp, points,number,oc , type,username } = data;
+                        const newRow = tableBody.insertRow();
+                        
+                        const cellNumber = newRow.insertCell();
+                        const celldate = newRow.insertCell();
+                        const cellusername = newRow.insertCell();
+                        const cellgame = newRow.insertCell();
+                        const celltype = newRow.insertCell();
+                        const cellsession = newRow.insertCell();
+                        const celldigit = newRow.insertCell();
+                        const cellpoint = newRow.insertCell();
+                        
+                        cellNumber.textContent = rowNumber++;
+                        celldate.textContent = timestamp.toDate().toDateString().substring(0,11);
+                        cellusername.textContent = username;
+                        cellgame.textContent = name;
+                        celltype.textContent = type;
+                        cellsession.textContent = oc;
+                        celldigit.textContent = number;
+                        cellpoint.textContent = points;
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        // 
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+    
+            const gameNameSelect = document.getElementById("game_name");
+
+            try {
+                    const settingsRef = collection(db, 'game_names');
+                    const q = query(settingsRef, where('exists', '==', true));
+                    const querySnapshot = await getDocs(q);
+
+                    
+    
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+                    querySnapshot.forEach(doc => {
+                        const gameName = doc.data().gameName;
+                        const option = document.createElement('option');
+                        option.value = gameName;
+                        option.textContent = gameName;
+                        gameNameSelect.appendChild(option);
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+    
     </script>
 
 <!-- App js -->

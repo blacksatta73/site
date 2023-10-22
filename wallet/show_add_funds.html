@@ -243,7 +243,7 @@
     
                             <li><a href="https://blacksatta73.github.io/site/wallet/withdraw_list.html">Withdraw Request</a></li>
                             <li><a href="https://blacksatta73.github.io/site/wallet/show_add_funds.html">Add Fund (User Wallet)</a></li>
-                            <li><a href="https://blacksatta73.github.io/site/bids/revert.html">Bid Revert</a></li>
+                            
                         </ul>
                     </li>
                     <li>
@@ -306,8 +306,8 @@
                         <div class="card-body">
                             <h4 class="card-title text-center">Add Balance In User Wallet</h4>
 
-                            <form action="wallet/add_funds" method="POST">
-                                <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                                <div class="form-group">
+                            <form id="addfund" >
+                                <div>
                                     <label>Select User</label>
                                     <select id="user" name="user" class="form-control  select2 show_parent" required>
                                         <option value="">Select User</option>
@@ -437,6 +437,77 @@
                 console.error("Error :", error);
             }
     });
+</script>
+
+<script>
+    document.getElementById("addfund").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.target);
+            try {
+                const response = await fetch("https://blacksatta.onrender.com/addfund", {
+                    method: "POST",
+                    body: formData,
+                });
+
+                if (response.ok) {
+                    window.location.href = "https://blacksatta73.github.io/site/dashboard";
+                    console.log("Fund Added");
+                } else {
+                    console.error("Failed");
+                }
+            } catch (error) {
+                console.error("Error :", error);
+            }
+    });
+</script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                            
+
+        const gameNameSelect = document.getElementById("user");
+
+        try {
+                const settingsRef = collection(db, 'users');
+                const q = query(settingsRef, where('approved', '==', true));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    console.log('No matching documents.');
+                    return;
+                }  
+                querySnapshot.forEach(doc => {
+                    const username = doc.data().username;
+                    const userId = doc.data().userId;
+                    const phone = doc.data().phone;
+                    const option = document.createElement('option');
+                    option.value = userId;
+                    option.textContent = username+"("+phone+")";
+                    gameNameSelect.appendChild(option);
+            });
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
 </script>
 
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>

@@ -247,7 +247,7 @@
     
                             <li><a href="https://blacksatta73.github.io/site/wallet/withdraw_list.html">Withdraw Request</a></li>
                             <li><a href="https://blacksatta73.github.io/site/wallet/show_add_funds.html">Add Fund (User Wallet)</a></li>
-                            <li><a href="https://blacksatta73.github.io/site/bids/revert.html">Bid Revert</a></li>
+                            
                         </ul>
                     </li>
                     <li>
@@ -311,7 +311,7 @@
 
             <div class="card-body">
                 <h5>Bid Win Report</h5>
-                <form class="theme-form mega-form" id="MainBidWinReport" method="post">
+                <form class="theme-form mega-form" id="MainBidWinReport">
                     <div class="row">
                         <div class="form-group col-md-2" style="margin-top:auto;">
 
@@ -332,7 +332,7 @@
                         <div class="form-group col-6">
                             <label class="col-form-label">Game Name</label>
                             <select id="game_name" name="game_name" class="form-control">
-                                <option value="ALL">All</option>
+                                <option>Select</option>
                             </select>
                         </div>
 
@@ -417,27 +417,7 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('MainBidWinReport').onsubmit = function () {
-            var name = document.getElementById('game_name').value;
-            var date = document.getElementById('start_date').value;
-
-            $.ajax({
-                type: 'post',
-                url: '/api/get_bids_win_report_2',
-                data: {name: name, date: date},
-
-                success: function (response) {
-                    console.log(response)
-                    document.getElementById('total_bid_amt').innerText = response['bidsAmount']
-                    document.getElementById('total_win_amt').innerText = response['wonAmount']
-                    document.getElementById('total_profit_amt').innerText = response['profitAmount']
-                    document.getElementById('total_loss_amt').innerText = response['lossAmount']
-                }
-            });
-            return false;
-        };
-    </script>
+    
 
 
                 </div>
@@ -562,6 +542,146 @@
                 }
             })
         })
+    </script>
+   
+    <script type="module">
+        
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        
+        document.getElementById('MainBidWinReport').onsubmit = function () {
+            event.preventDefault();
+            
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+
+            
+
+            try {
+                
+                    var name = document.getElementById('game_name').value;
+                    var date = document.getElementById('start_date').value;
+        
+                   
+                    // Create a Date object for the specific date
+                     // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                    // Create a Date object for 00:00 AM (midnight) of the specific date
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                    // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                    //const startTimestamp = startOfDay.getTime();
+                    //const endTimestamp = endOfDay.getTime();
+
+                    const settingsRef = collection(db, 'bid_history_admin');
+                    const q = query(settingsRef, where('game_name', '==', name),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshot = await getDocs(q);
+                
+
+                    var bid = 0;
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(doc => {
+                            const points = doc.data().points;
+                            bid=bid+points;
+                        });
+                    }
+                    document.getElementById('total_bid_amt').innerText = bid;
+                    const settingRef = collection(db, 'win_history_admin');
+                    const qs = query(settingRef, where('game_name', '==', name),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const querySnapshots = await getDocs(qs);
+
+                    var win = 0;
+                    if (querySnapshots.empty) {
+                        querySnapshots.forEach(doc => {
+                            const points = doc.data().points;
+                            win=win+points;
+                        });
+                    }
+                    document.getElementById('total_win_amt').innerText = win;
+                
+                    if(bid-win>0){
+                        document.getElementById('total_profit_amt').innerText = bid-win;
+                    }
+                    else{
+                        document.getElementById('total_loss_amt').innerText = win-bid;
+                    }
+                } catch (error) {
+                    console.error('Error getting document:', error);
+                }   
+            }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        // 
+    // Function to fetch data from Firestore and populate the form fields
+        async function populateFormFields() {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+    
+            const gameNameSelect = document.getElementById("game_name");
+
+            try {
+                    const settingsRef = collection(db, 'game_names');
+                    const q = query(settingsRef, where('exists', '==', true));
+                    const querySnapshot = await getDocs(q);
+
+                    
+    
+                    if (querySnapshot.empty) {
+                        console.log('No matching documents.');
+                        return;
+                    }  
+                    querySnapshot.forEach(doc => {
+                        const gameName = doc.data().gameName;
+                        const option = document.createElement('option');
+                        option.value = gameName;
+                        option.textContent = gameName;
+                        gameNameSelect.appendChild(option);
+                        
+                });
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+
+            
+        }
+    
+    // Call the function to populate form fields
+        populateFormFields();   
+    
     </script>
 
 <!-- App js -->
