@@ -429,9 +429,7 @@
                                     <th>#</th>
                                     <th>Request Amount</th>
                                     <th>Request Date</th>
-                                    <th>Withdraw Number</th>
                                     <th>Status</th>
-                                    <th>Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -958,11 +956,61 @@
                         
                 });
             }
-            
-            } catch (error) {
-                console.error('Error getting document:', error);
-            }   
-        }
+
+            const settaaingsRef = collection(db, 'withdraw_points');
+            const aq = query(settaaingsRef, where("userId",'==',userId));
+            const aquerySnapshot = await getDocs(aq);
+            const atableBody = document.getElementById('withdrawTable').getElementsByTagName('tbody')[0];
+            atableBody.innerHTML = ''; // Clear the table body before populating new data
+    
+            let arowNumber = 1;
+            if (!aquerySnapshot.empty) {
+                aquerySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const {  createdTimestamp, points,state } = data;
+                    const newRow = atableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const cellpoint = newRow.insertCell();
+                    const celldate = newRow.insertCell();
+                    const cellstatus = newRow.insertCell();
+                   
+                    cellNumber.textContent = arowNumber++;
+                    cellpoint.textContent = points;
+                    celldate.textContent = createdTimestamp.toDate().toDateString().substring(0,11);
+                    if(state == 0)
+                    {
+                        const butt = document.createElement('button');
+                        butt.textContent ='Pending';
+                        butt.classList.add('btn', 'btn-success', 'btn-sm', 'w-lg', 'btn-block');
+                        butt.style.backgroundColor = '#3F8AE2'
+                        butt.style.borderColor = '#3F8AE2'
+                        butt.style.width = butt.scrollWidth + 'px';
+                        cellstatus.appendChild(butt);
+                    }
+                    if(state == 1)
+                    {
+                        const buttn = document.createElement('button');
+                        buttn.textContent ='Rejected';
+                        buttn.classList.add('btn', 'btn-danger', 'btn-sm', 'w-lg', 'btn-block');
+                        buttn.style.width = buttn.scrollWidth + 'px';
+                        cellstatus.appendChild(buttn);
+                    }
+                    if(state == 2)
+                    {
+                        const butt = document.createElement('button');
+                        butt.textContent ='Approved';
+                        butt.classList.add('btn', 'btn-success', 'btn-sm', 'w-lg', 'btn-block');
+                        butt.style.width = butt.scrollWidth + 'px';
+                        cellstatus.appendChild(butt);
+                    }
+                    
+            });
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
     
     // Call the function to populate form fields
         populateFormFields();   
