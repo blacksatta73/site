@@ -575,10 +575,8 @@
                     tableBody.innerHTML = ''; // Clear the table body before populating new data
             
                     let rowNumber = 1;
-                    if (querySnapshot.empty) {
-                        console.log('No matching documents.');
-                        return;
-                    }  
+                    if (!querySnapshot.empty) {
+                        
 
                     querySnapshot.forEach(doc => {
                         const data = doc.data();
@@ -604,6 +602,7 @@
                         cellpoint.textContent = points;
                         
                 });
+            }
             } catch (error) {
                 console.error('Error getting document:', error);
             }   

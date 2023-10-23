@@ -617,6 +617,7 @@
                     buttons.addEventListener("click", async () => {
                         const formData = new FormData();
                         formData.append('game_name', gameName);
+                        console.log(formData);
                         try {
                             // Send the value to the server using fetch API                    
                             const response = await fetch('https://blacksatta.onrender.com/upd', {

@@ -329,8 +329,8 @@
                             <div class="p-3 text-right">
                                 <div class="mb-2">
                                     Approved :
-                                            <input id="statuss" type="button" value="Yes"
-                                                   style="background-color: #34c38f;padding-right: .6em;padding-left: .6em;border-radius: 10rem;border: none;color: white;font-size: 75%; font-weight: 700;">
+                                            <!-- <input id="statuss" type="button" value="Yes"
+                                                   style="background-color: #34c38f;padding-right: .6em;padding-left: .6em;border-radius: 10rem;border: none;color: white;font-size: 75%; font-weight: 700;"> -->
 
                                 </div>
                             </div>
@@ -749,15 +749,6 @@
             }
     });
 </script>
-
-    <script>
-
-        $(document).ready(function () {
-            const username = 8235495997;
-            console.log(username)
-        });
-
-    </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
         import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
@@ -791,18 +782,30 @@
                     const settingsRef = collection(db, 'users');
                     const q = query(settingsRef, where('userId', '==', userId));
                     const querySnapshot = await getDocs(q);
-                    const statusButton = document.getElementById("statuss");
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.id = 'statuss';
+                    button.style.paddingRight = '.6em';
+                    button.style.paddingLeft = '.6em';
+                    button.style.borderRadius = '10rem';
+                    button.style.border = 'none';
+                    button.style.color = 'white';
+                    button.style.fontSize = '75%';
+                    button.style.fontWeight = '700';
+                    // Append the button to the specified div element
+                    const divElement = document.querySelector('.mb-2');
+                    divElement.appendChild(button);
                     querySnapshot.forEach(doc => {
                         approved = doc.data().approved;
                         if(approved === true)
                         {
-                            statusButton.value = "Yes";
-                            statusButton.style.backgroundColor = "#34c38f";
+                            button.value = "Yes";
+                            button.style.backgroundColor = "#34c38f";
                         }
                         else
                         {
-                            statusButton.value = "No";
-                            statusButton.style.backgroundColor = "#f46a6a";
+                            button.value = "No";
+                            button.style.backgroundColor = "#f46a6a";
                         }
                         createdTimestamp = doc.data().createdTimestamp;
                         userCredits = doc.data().userCredits;
@@ -818,12 +821,16 @@
                         nameElement.innerText = username;
                         phoneElement.innerText = phone.substring(3);
                         balance.innerText = userCredits;
+                        const wlink = phone.replace(/\D/g, '');
+                        const wl = 'https://wa.me/'+wlink;
+                        const ml = 'tel:'+phone;
+
                         // Data for the rows
                         const rowData = [
                             { label: "Full Name :", value: username },
                             { label: "Mobile :", value: phone , actions: [
-                                { icon: "mdi-cellphone-iphone", link: "" },
-                                { icon: "mdi-whatsapp", link: "" }
+                                { icon: "mdi-cellphone-iphone", link: ml },
+                                { icon: "mdi-whatsapp", link: wl }
                             ] },
                             { label: "Creation Date :", value: createdTimestamp.toDate().toDateString() },
                             { label: "Upi :", value: upi }
@@ -962,9 +969,10 @@
     </script>
 
     <script type="module">
-        import { initializeApp } from "firebase/app";
-        import { getFirestore, updateDoc, doc } from "firebase/firestore";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import { getFirestore, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
     
+        console.log("aaaaa");
         const statusButton = document.getElementById("statuss");
     
         // Initialize Firebase app and get Firestore reference
@@ -975,11 +983,13 @@
             const urlParams = new URLSearchParams(window.location.search);
             return urlParams.get(name);
         }
-        const currentState = statusButton.value; // Store the current state in a variable
+        const currentState = statusButton.value;
+        console.log(currentState); // Store the current state in a variable
         document.getElementById("statuss").onclick =  async() => {
         event.preventDefault(); 
         const userId = getQueryParameter('userId');
-    
+        console.log(userId);
+
         
     
         try {
