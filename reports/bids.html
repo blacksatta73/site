@@ -638,21 +638,16 @@
                     const settingsRef = collection(db, 'game_names');
                     const q = query(settingsRef, where('exists', '==', true));
                     const querySnapshot = await getDocs(q);
-
-                    
-    
-                    if (querySnapshot.empty) {
-                        console.log('No matching documents.');
-                        return;
-                    }  
-                    querySnapshot.forEach(doc => {
-                        const gameName = doc.data().gameName;
-                        const option = document.createElement('option');
-                        option.value = gameName;
-                        option.textContent = gameName;
-                        gameNameSelect.appendChild(option);
-                        
-                });
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(doc => {
+                            const gameName = doc.data().gameName;
+                            const option = document.createElement('option');
+                            option.value = gameName;
+                            option.textContent = gameName;
+                            gameNameSelect.appendChild(option);
+                            
+                        });
+                    }
             } catch (error) {
                 console.error('Error getting document:', error);
             }   

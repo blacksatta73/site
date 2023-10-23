@@ -580,9 +580,8 @@
 
                     // Create a Date object for 00:00 AM (midnight) of the specific date
                     const startOfDay = new Date(date);
-                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+                    startOfDay.setHours(0, 0, 0, 0); 
 
-                    // Create a Date object for 23:59 PM of the specific date
                     const endOfDay = new Date(date);
                     endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
 
@@ -608,7 +607,7 @@
                     const querySnapshots = await getDocs(qs);
 
                     var win = 0;
-                    if (querySnapshots.empty) {
+                    if (!querySnapshots.empty) {
                         querySnapshots.forEach(doc => {
                             const points = doc.data().points;
                             win=win+points;

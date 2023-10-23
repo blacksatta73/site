@@ -351,16 +351,15 @@
 
                                 <div class="row">
                                     <div class="col-6">
-                                        <a href="user/unapproved">
-                                            <h5 class="font-size-15">0</h5>
+                                            <h5 id = "una" class="font-size-15"></h5>
                                             <p class="text-muted mb-0">Unapproved Users</p>
-                                        </a>
+                                        
                                     </div>
                                     <div class="col-6">
-                                        <a href="user/userList">
-                                            <h5 class="font-size-15">0</h5>
+                                    
+                                            <h5 id="unaa" class="font-size-15"></h5>
                                             <p class="text-muted mb-0">Approved Users</p>
-                                        </a>
+                            
 
                                     </div>
                                 </div>
@@ -380,7 +379,7 @@
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
                                         <p class="text-muted fw-medium">Users</p>
-                                        <h4 class="mb-0">0</h4>
+                                        <h4 id = "userrr" class="mb-0"></h4>
                                     </div>
 
 
@@ -404,7 +403,7 @@
                                 <div class="d-flex">
                                     <div class="flex-grow-1">
                                         <p class="text-muted fw-medium">Games</p>
-                                        <h4 class="mb-0">0</h4>
+                                        <h4 id="gamess" class="mb-0"></h4>
                                     </div>
 
                                     <div class="flex-shrink-0 align-self-center ">
@@ -425,7 +424,7 @@
                             <div class="d-flex">
                                 <div class="flex-grow-1">
                                     <p class="text-muted fw-medium">Bid Amount</p>
-                                    <h4 class="mb-0">0</h4>
+                                    <h4 id="bida" class="mb-0"></h4>
                                 </div>
 
                                 <div class="flex-shrink-0 align-self-center">
@@ -471,31 +470,7 @@
 
 
                         </div>
-                        <script>
-                            document.getElementById('searchForm').onsubmit = function () {
-                                const name = document.getElementById('bid_game_name').value;
-                                const market = document.getElementById('market_status').value;
-                                $.ajax({
-                                    type: 'POST',
-                                    url: '/api/bids/single_ank_bids',
-                                    data: {name: name, market: market},
-                                    success: function (htmlresponse) {
-                                        $('#total0').html(htmlresponse['zero'])
-                                        $('#total1').html(htmlresponse['one'])
-                                        $('#total2').html(htmlresponse['two'])
-                                        $('#total3').html(htmlresponse['three'])
-                                        $('#total4').html(htmlresponse['four'])
-                                        $('#total5').html(htmlresponse['five'])
-                                        $('#total6').html(htmlresponse['six'])
-                                        $('#total7').html(htmlresponse['seven'])
-                                        $('#total8').html(htmlresponse['eight'])
-                                        $('#total9').html(htmlresponse['nine'])
-                                    }
-                                });
-
-                                return false;
-                            };
-                        </script>
+                        
                     </form>
                 </div>
             </div>
@@ -513,24 +488,12 @@
                             <p class="text-muted">Game Name</p>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <select id="bid_details_game_name" name="bid_details_game_name" class="form-control"
-                                            onchange="get_bid_detail(this.value)">
+                                    <select id="bid_details_game_name" name="bid_details_game_name" class="form-control">
                                         <option value=''>--Select Market Name--</option>
                                     </select>
                                 </div>
                             </div>
-                            <script>
-                                function get_bid_detail(val) {
-                                    $.ajax({
-                                        type: 'POST',
-                                        url: '/api/bids/bid_details',
-                                        data: {id: val},
-                                        success: function (htmlresponse) {
-                                            $('#bid_amt').html(htmlresponse)
-                                        }
-                                    });
-                                }
-                            </script>
+                            
                             <div class="row mt-2">
                                 <h3 id="bid_amt">N/A</h3>
                                 <p class="text-muted">Market Amount</p>
@@ -709,7 +672,7 @@
                                     <label>Game Name</label>
                                     <select id="game_name_winning_report" name="game_name_winning_report"
                                             class="form-control" required>
-                                        <option value="ALL">All</option>
+                                        <option>Select Game</option>
                                     </select>
                                 </div>
 
@@ -725,11 +688,71 @@
             </div>
         </div>
     </div>
-    <div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="bid_history_box bhb_bid_amt"
+                             style="border: 1px dotted black;padding: 2px; margin:5px;">
+                            <div class="row" style="align-items: baseline; padding:5px;">
+                                <div class="col-md-6">
+                                    <h5 class="text-muted font-weight-medium">Total Bid Amount</h5>
+                                </div>
+                                <div class="col-md-3">
+                                    <h5 id="total_bid_amt"><i class="bx bx-rupee"></i> 0</h5>
+                                </div>
+                                <div class="col-md-3 text-sm-right">
 
-        <span id="bidWinReport">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bid_history_box bhb_win_amt"
+                             style="border: 1px dotted black;padding: 2px; margin:5px;">
+                            <div class="row" style="align-items: baseline; padding:5px;">
+                                <div class="col-md-6">
+                                    <h5 class="text-muted font-weight-medium">Total Win Amount</h5>
+                                </div>
+                                <div class="col-md-3">
 
-        </span>
+                                    <h5 class="mb-0" id="total_win_amt"><i class="bx bx-rupee"></i> 0</h5>
+                                </div>
+                                <div class="col-md-3 text-sm-right">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bid_history_area">
+                            <div class="bid_history_box bhb_profit_amt"
+                                 style="border: 2px solid green;padding: 2px; margin:5px;">
+                                <div class="row" style="align-items: baseline; padding:5px;">
+                                    <div class="col-md-6"><h5 class="font-weight-medium">Total Profit Amount</h5>
+                                    </div>
+                                    <div class="col-md-3"><h5 class="mb-0" id="total_profit_amt"><i
+                                                    class="bx bx-rupee"></i>0</h5></div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bid_history_area">
+                            <div class="bid_history_box bhb_profit_amt" style="background-color:red;border: 2px solid grey;padding: 2px; margin:5px;">
+                                <div class="row" style="align-items: baseline; padding:5px;">
+                                    <div class="col-md-6"><h5 class="font-weight-medium">Total Loss Amount</h5>
+                                    </div>
+                                    <div class="col-md-3"><h5 class="mb-0" id="total_loss_amt"><i
+                                                    class="bx bx-rupee"></i>0</h5></div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -743,16 +766,14 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>User Name</th>
+                        <th>Date Time</th>
                         <th>User Phone</th>
-                        <th>Amount</th>
-                        <th>Date</th>
+                        <th>User Name</th>
+                        <th>(₹) Amount</th>
                     </tr>
                     </thead>
                     <tbody>
-                           
-
-                                        </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -865,55 +886,234 @@
             }
     });
 </script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
 
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                            
+
+        try {
+            const settingsRef = collection(db, 'users');
+            const q = query(settingsRef, where('approved', '==', true));
+            const querySnapshot = await getDocs(q);        
+            let num = 0;
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach(doc => {
+                    num++;
+                });
+            }
+            document.getElementById('una').innerText = num;
+
+            const qr = query(settingsRef, where('approved', '==', false));
+            const querySnapshotr = await getDocs(qr);        
+            let numr = 0;
+            if (!querySnapshotr.empty) {
+                querySnapshotr.forEach(doc => {
+                    numr++;
+                });
+            }
+            document.getElementById('unaa').innerText = numr;
+            document.getElementById('userrr').innerText = numr+num;
+
+            const settingsRerf = collection(db, 'game_names');
+            const rq = query(settingsRerf, where('exists', '==', true));
+            const querySnapshort = await getDocs(rq);        
+            let nrum = 0;
+            if (!querySnapshort.empty) {
+                querySnapshort.forEach(doc => {
+                    nrum++;
+                });
+            }
+            document.getElementById('gamess').innerText = nrum;
+            const currentDate = new Date();
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Month is zero-based, so we add 1
+            const year = currentDate.getFullYear();
+        
+            // Format the date as dd-mm-yyyy
+            const date = `${year}-${month}-${day}`;
+            const startOfDay = new Date(date);
+            startOfDay.setHours(0, 0, 0, 0); 
+
+            const endOfDay = new Date(date);
+            endOfDay.setHours(23, 59, 59, 999);
+
+            const settingsRf = collection(db, 'bid_history_admin');
+            const rqa = query(settingsRf, where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+            const querySnapshorta = await getDocs(rqa);        
+            let nruma = 0;
+            if (!querySnapshorta.empty) {
+                querySnapshorta.forEach(doc => {
+                    const bid = doc.data().points;
+                    nruma = nruma + bid;
+                });
+            }
+            document.getElementById('bida').innerText = nruma;
+
+            const settingscRef = collection(db, 'game_names');
+            const qc = query(settingscRef, where('exists', '==', true));
+            const querycSnapshot = await getDocs(qc);
+            const a = document.getElementById("bid_game_name");
+            const b = document.getElementById("bid_details_game_name");
+            const c = document.getElementById("game_name_winning_report");
+            if (!querycSnapshot.empty) {
+                querycSnapshot.forEach(doc => {
+                    const gameName = doc.data().gameName;
+                    const option = document.createElement('option');
+                    option.value = gameName;
+                    option.textContent = gameName;
+                    const optionb = document.createElement('option');
+                    optionb.value = gameName;
+                    optionb.textContent = gameName;
+                    const optionc = document.createElement('option');
+                    optionc.value = gameName;
+                    optionc.textContent = gameName;
+                    a.appendChild(option);   
+                    b.appendChild(optionb);
+                    c.appendChild(optionc);
+
+                });
+            }
+            const settinRef = collection(db, 'deposit');
+            const sq = query(settinRef);
+            const quernapshot = await getDocs(sq);
+            const tableBody = document.getElementById('depositHistory').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear the table body before populating new data
+            var val = 0;
+            let rowNumber = 1;
+            if (!quernapshot.empty) {
+                quernapshot.forEach(doc => {
+                    const data = doc.data();
+                    const { credits,timestamp, mno,username } = data;
+                    const newRow = tableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const celldate = newRow.insertCell();
+                    const cellmno = newRow.insertCell();
+                    const cellusername = newRow.insertCell();
+                    const cellcredits = newRow.insertCell();
+                    
+                    cellNumber.textContent = rowNumber++;
+                    celldate.textContent = timestamp.toDate().toDateString().substring(0,11);
+                    cellmno.textContent = mno;
+                    cellusername.textContent = username;
+                    cellcredits.textContent = credits;
+                    val=val+credits;
+                    });
+            }  
+
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
+</script>
+<script type="module">
+        
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    
+    document.getElementById('searchForm1').onsubmit = function () {
+        event.preventDefault();
+        
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                            
+
+        
+
+        try {
+            
+                var name = document.getElementById('game_name_winning_report').value;
+                var date = document.getElementById('start_date1').value;
+    
+               
+                // Create a Date object for the specific date
+                 // Replace '2023-10-19' with your specific date in the format 'YYYY-MM-DD'
+
+                // Create a Date object for 00:00 AM (midnight) of the specific date
+                const startOfDay = new Date(date);
+                startOfDay.setHours(0, 0, 0, 0); 
+
+                const endOfDay = new Date(date);
+                endOfDay.setHours(23, 59, 59, 999); // Set hours, minutes, seconds, and milliseconds to end of the day
+
+                // Get timestamps for start of the day (00:00 AM) and end of the day (23:59 PM)
+                //const startTimestamp = startOfDay.getTime();
+                //const endTimestamp = endOfDay.getTime();
+
+                const settingsRef = collection(db, 'bid_history_admin');
+                const q = query(settingsRef, where('game_name', '==', name),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                const querySnapshot = await getDocs(q);
+            
+
+                var bid = 0;
+                if (!querySnapshot.empty) {
+                    querySnapshot.forEach(doc => {
+                        const points = doc.data().points;
+                        bid=bid+points;
+                    });
+                }
+                document.getElementById('total_bid_amt').innerText = bid;
+                const settingRef = collection(db, 'win_history_admin');
+                const qs = query(settingRef, where('game_name', '==', name),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                const querySnapshots = await getDocs(qs);
+
+                var win = 0;
+                if (!querySnapshots.empty) {
+                    querySnapshots.forEach(doc => {
+                        const points = doc.data().points;
+                        win=win+points;
+                    });
+                }
+                document.getElementById('total_win_amt').innerText = win;
+            
+                if(bid-win>0){
+                    document.getElementById('total_profit_amt').innerText = bid-win;
+                }
+                else{
+                    document.getElementById('total_loss_amt').innerText = win-bid;
+                }
+            } catch (error) {
+                console.error('Error getting document:', error);
+            }   
+        }
+
+// Call the function to populate form fields
+    populateFormFields();   
+    }
+</script>
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/select2/select2.min.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/datatables/datatables.min.js"></script>
-    <script>
-
-        $(document).ready(function () {
-            var table = $('#depositHistory').dataTable({
-                sorting: false,
-            })
-
-        })
-
-    </script>
-
-
-    <script>
-        $(document).ready(function () {
-
-            $.ajax({
-                type: 'get',
-                url: '/api/date',
-                success: function (response) {
-                    document.getElementById('start_date1').value = response;
-                                        $('#searchForm1').submit()
-
-                }
-            })
-
-
-            document.getElementById('searchForm1').onsubmit = function () {
-                var name = document.getElementById('game_name_winning_report').value;
-                var date = document.getElementById('start_date1').value;
-
-                $.ajax({
-                    type: 'post',
-                    url: '/api/get_bids_win_report',
-                    data: {name: name, date: date},
-                    success: function (response) {
-                        console.log(response)
-                        $('#bidWinReport').html(response)
-                    }
-                });
-                return false;
-            };
-        })
-
-    </script>
 
 <!-- App js -->
 <script src="https://blacksatta73.github.io/site/assets/js/app.min.js"></script>
