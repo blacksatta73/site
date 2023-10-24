@@ -611,7 +611,30 @@
                 </div>
 
             </div>
-
+            <div class="modal fade" id="addFundsModal" aria-labelledby="addFundsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addFundsModalLabel">Edit Bid</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form id='addfunds'>
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Bid </label>
+                                    <input type="number" class="form-control" name="amount" id="amount"
+                                           placeholder="Enter Amount">
+                                </div>
+        
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
             <div class="card">
 
                 <div class="card-header p-t-15 p-b-15">
@@ -876,10 +899,8 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -910,10 +931,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -944,10 +964,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -978,10 +997,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -1037,10 +1055,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -1071,10 +1088,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -1105,10 +1121,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -1139,10 +1154,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -1173,10 +1187,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            
                             cellaction.appendChild(button);
                         });
                     }
@@ -1207,10 +1220,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -1241,10 +1253,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
@@ -1275,10 +1286,9 @@
                             const button = document.createElement('button');
                             button.textContent ='EDIT'
                             button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
-                            const link = ``;
-                            button.onclick = function() {
-                                window.location.href = link;
-                            };
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
                             cellaction.appendChild(button);
                         });
                     }
