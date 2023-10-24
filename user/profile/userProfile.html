@@ -328,10 +328,6 @@
                         <div class="col-5 align-center">
                             <div class="p-3 text-right">
                                 <div class="mb-2">
-                                    Approved :
-                                            <!-- <input id="statuss" type="button" value="Yes"
-                                                   style="background-color: #34c38f;padding-right: .6em;padding-left: .6em;border-radius: 10rem;border: none;color: white;font-size: 75%; font-weight: 700;"> -->
-
                                 </div>
                             </div>
                         </div>
@@ -781,15 +777,7 @@
                     const q = query(settingsRef, where('userId', '==', userId));
                     const querySnapshot = await getDocs(q);
                     const button = document.createElement('button');
-                    button.type = 'button';
-                    button.id = 'statuss';
-                    button.style.paddingRight = '.6em';
-                    button.style.paddingLeft = '.6em';
-                    button.style.borderRadius = '10rem';
-                    button.style.border = 'none';
-                    button.style.color = 'white';
-                    button.style.fontSize = '75%';
-                    button.style.fontWeight = '700';
+
                     // Append the button to the specified div element
                     const divElement = document.querySelector('.mb-2');
                     divElement.appendChild(button);
@@ -797,14 +785,34 @@
                         approved = doc.data().approved;
                         if(approved === true)
                         {
-                            button.value = "Yes";
-                            button.style.backgroundColor = "#34c38f";
+                            button.classList.add("btn", "btn-success", "btn-sm" ,"w-lg");
+                            button.innerText = "Approved";
                         }
                         else
                         {
-                            button.value = "No";
-                            button.style.backgroundColor = "#f46a6a";
+                            button.classList.add("btn", "btn-danger", "btn-sm" ,"w-lg");
+                            button.innerText = "Unapproved";
                         }
+                        button.onclick = async function() {
+                            var formData = new FormData();
+                            formData.append('userId',userId);
+                            try {
+                                const response = await fetch("https://blacksatta.onrender.com/appunapp", {
+                                    method: "POST",
+                                    body: formData,
+                                });
+                
+                                if (response.ok) {
+                                    window.location.reload();
+                                    console.log("Status Changed");
+                                } else {
+                                    console.error("Failed");
+                                }
+                            } catch (error) {
+                                console.error("Error :", error);
+                            }
+
+                        };
                         createdTimestamp = doc.data().createdTimestamp;
                         userCredits = doc.data().userCredits;
                         phone = doc.data().phone;
@@ -1016,71 +1024,7 @@
         populateFormFields();   
     </script>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
-        import { getFirestore, updateDoc, doc } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js";
-    
-        console.log("aaaaa");
-        const statusButton = document.getElementById("statuss");
-    
-        // Initialize Firebase app and get Firestore reference
-    
-    
-        // Get userId from query parameters
-        function getQueryParameter(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-        const currentState = statusButton.value;
-        console.log(currentState); // Store the current state in a variable
-        document.getElementById("statuss").onclick =  async() => {
-        event.preventDefault(); 
-        const userId = getQueryParameter('userId');
-        console.log(userId);
-
-        
-    
-        try {
-        
-            const firebaseConfig = {
-                // your Firebase configuration
-                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
-                authDomain: "black-satta-f197b.firebaseapp.com",
-                projectId: "black-satta-f197b",
-                storageBucket: "black-satta-f197b.appspot.com",
-                messagingSenderId: "310887564056",
-                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
-                measurementId: "G-HWJ4VQGEDH"
-            };
-            
-            const app = initializeApp(firebaseConfig);
-            const db = getFirestore(app);
-    
-            
-            
-            if (currentState == "Yes") {
-                await updateDoc(doc(db, "users", userId), {
-                    approved: false
-                });
-                statusButton.value = "No";
-                statusButton.style.backgroundColor = "#f46a6a";
-            } else {
-                await updateDoc(doc(db, "users", userId), {
-                    approved: true
-                });
-                statusButton.value = "Yes";
-                statusButton.style.backgroundColor = "#34c38f";
-            }
-    
-            console.log("Value updated successfully!");
-        } catch (error) {
-            console.error("Error updating value:", error);
-        }
-    };
-    
-    
-    
-    </script>
+   
     
     <script src="https://dashboard.sattamainkalyan.in/assets/js/pages/datatables.init.js"></script>
     <script src="https://dashboard.sattamainkalyan.in/assets/libs/datatables/datatables.min.js"></script>
