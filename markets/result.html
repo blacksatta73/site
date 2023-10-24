@@ -319,7 +319,6 @@
                             <div class="row">
                                 <h5>Declare Result</h5>
 
-
                                 <div class="form-group col-md-4">
                                     <label for="game" class="col-form-label">Game Name</label>
                                     <select class="form-control" name="game" id="game" onchange="" required>
@@ -342,6 +341,11 @@
                                             class="btn btn-primary waves-light m-t-10 mtop_25"
                                             style="margin-left: 10px;margin-top: 36px;">GO
                                     </button>
+                                    <script>
+                                        function showResultForm() {
+                                            document.getElementById("result_form").style.display = "block";
+                                        }                                
+                                    </script>
                                 </div>
 
                             </div>
@@ -599,7 +603,7 @@
                                             style="margin-left: 10px;margin-top: 36px;">Show Winner
                                     </button>
 
-                                    <button type="button" class="btn btn-primary" onclick="declareResult()"
+                                    <button type="button" class="btn btn-primary" 
                                             style="margin-left: 10px;margin-top: 36px;">Declare
                                     </button>
                                 </div>
@@ -611,16 +615,32 @@
 
             </div>
 
-            <div class="row">
-                <span id="alertMessage"></span>
-            </div>
+            <div class="card">
 
-            <div class="row">
-                <span id="winners" style="width: -webkit-fill-available;"></span>
-            </div>
-
-            <div class="row">
-                <span id="history"></span>
+                <div class="card-header p-t-15 p-b-15">
+    
+                </div>
+    
+                <div class="card-body">
+                    <h5>Win User List </h5>
+                    <div class="table-responsive">
+                        <table id="bidHistory" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Username</th>
+                                <th>Game Type</th>
+                                <th>Bet Digit</th>
+                                <th>Win Points</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    
             </div>
 
         </div>
@@ -733,7 +753,50 @@
             }
     });
 </script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
 
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                            
+
+        const gameNameSelect = document.getElementById("game");
+
+        try {
+                const settingsRef = collection(db, 'game_names');
+                const q = query(settingsRef, where('exists', '==', true));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    querySnapshot.forEach(doc => {
+                        const gameName = doc.data().gameName;
+                        const option = document.createElement('option');
+                        option.value = gameName;
+                        option.textContent = gameName;
+                        gameNameSelect.appendChild(option);
+                        
+                    });
+                }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
+</script>
     <script src="https://blacksatta73.github.io/site/assets/libs/datatables/datatables.min.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/datatables.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
@@ -741,60 +804,366 @@
     <script src="https://blacksatta73.github.io/site/assets/js/pages/dashboard.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/libs/select2/select2.min.js"></script>
 
-    <script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+        import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+        $("#showWinnerBtn").click(async function () {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                            
+    
+            const game_name = document.getElementById('game').value;
+            const session = document.getElementById('session').value;
+            const panel = parseInt(document.getElementById('result_panel').value);
+            const single = parseInt(document.getElementById('result_digit').value);
+            console.log(typeof single);
+            try {
+                if(session==="open"){
+                    
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+                    const day = String(today.getDate()).padStart(2, '0');
+
+                    const date = `${year}-${month}-${day}`;
+
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999);
+                    const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    const asettingsRef = doc(db, 'bid',game_name);
+                    const settingsRef = collection(asettingsRef ,'single_digit_open')
+                    const q = query(settingsRef,where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', single));
+                    const querySnapshot = await getDocs(q);
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(doc => {
+                            const data = doc.data();
+                            console.log(data);
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsRef = doc(db, 'bid',game_name);
+                    const ettingsRef = collection(aettingsRef ,'single_pana_open')
+                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querySnapsho = await getDocs(eq);
+                    if (!querySnapsho.empty) {
+                        querySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aetingsRef = doc(db, 'bid',game_name);
+                    const etingsRef = collection(aetingsRef ,'double_pana_open')
+                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const quesrySnapsho = await getDocs(eqs);
+                    if (!quesrySnapsho.empty) {
+                        quesrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsef = doc(db, 'bid',game_name);
+                    const ettingsef = collection(aettingsef ,'triple_pana_open')
+                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querrySnapsho = await getDocs(eqr);
+                    if (!querrySnapsho.empty) {
+                        querrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
 
 
+                }
+
+                if(session==="close"){
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+                    const day = String(today.getDate()).padStart(2, '0');
+
+                    const date = `${year}-${month}-${day}`;
+
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999);
+                    const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    const asettingsRef = doc(db, 'bid',game_name);
+                    const settingsRef = collection(asettingsRef ,'single_digit_close')
+                    const q = query(settingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', single));
+                    const querySnapshot = await getDocs(q);
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsRef = doc(db, 'bid',game_name);
+                    const ettingsRef = collection(aettingsRef ,'single_pana_close')
+                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querySnapsho = await getDocs(eq);
+                    if (!querySnapsho.empty) {
+                        querySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aetingsRef = doc(db, 'bid',game_name);
+                    const etingsRef = collection(aetingsRef ,'double_pana_close')
+                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const quesrySnapsho = await getDocs(eqs);
+                    if (!quesrySnapsho.empty) {
+                        quesrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsef = doc(db, 'bid',game_name);
+                    const ettingsef = collection(aettingsef ,'triple_pana_close')
+                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querrySnapsho = await getDocs(eqr);
+                    if (!querrySnapsho.empty) {
+                        querrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
+                    
+
+                }
+            } catch (error) {
+                console.error('Error getting document:', error);
+            } 
+            
+            
+        });
+        
         function declareResult() {
             const game_name = document.getElementById('game').value;
             const session = document.getElementById('session').value;
             const panel = document.getElementById('result_panel').value;
             const single = document.getElementById('result_digit').value;
 
-            $.ajax({
-                type: 'post',
-                url: '/api/markets/declare_main_result',
-                data: {game_name: game_name, session: session, panel: panel, single: single},
-                success: function (response) {
-                    $('#alertMessage').html(response)
-                    document.getElementById("result_form").style.display = "none";
-                    getResultHistory()
-                }
-            })
+            
 
         }
 
-        function getResultHistory() {
-            $.ajax({
-                type: 'get',
-                url: '/api/markets/main_result_history',
-                success: function (response) {
-                    $('#history').html(response)
-                }
-            })
-        }
+        
 
-        function showResultForm() {
-            document.getElementById("result_form").style.display = "block";
-        }
+       
 
-
-        $(document).ready(function () {
-            getResultHistory()
-            $("#showWinnerBtn").click(function () {
-                const game_name = document.getElementById('game').value;
-                const session = document.getElementById('session').value;
-                const panel = document.getElementById('result_panel').value;
-                const single = document.getElementById('result_digit').value;
-                $.ajax({
-                    type: 'post',
-                    url: '/api/bids/winner_list',
-                    data: {game_name: game_name, session: session, panel: panel, single: single},
-                    success: function (response) {
-                        $('#winners').html(response)
-                    }
-                })
-            });
-        });
+        
     </script>
 
 <!-- App js -->
