@@ -600,7 +600,7 @@
                                             style="margin-left: 10px;margin-top: 36px;">Show Winner
                                     </button>
 
-                                    <button type="button" class="btn btn-primary" 
+                                    <button type="button" id="declareBtn" class="btn btn-primary" 
                                             style="margin-left: 10px;margin-top: 36px;">Declare
                                     </button>
                                 </div>
@@ -623,7 +623,7 @@
                                 <div class="mb-3">
                                     <label for="recipient-name" class="col-form-label">Bid </label>
                                     <input type="number" class="form-control" name="amount" id="amount"
-                                           placeholder="Enter Amount">
+                                           placeholder="Enter Bid">
                                 </div>
         
                             </div>
@@ -880,7 +880,7 @@
                     if (!querySnapshot.empty) {
                         querySnapshot.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -912,7 +912,7 @@
                     if (!querySnapsho.empty) {
                         querySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -945,7 +945,7 @@
                     if (!quesrySnapsho.empty) {
                         quesrySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -978,7 +978,7 @@
                     if (!querrySnapsho.empty) {
                         querrySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1036,7 +1036,7 @@
                     if (!querySnapshot.empty) {
                         querySnapshot.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1069,7 +1069,7 @@
                     if (!querySnapsho.empty) {
                         querySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1102,7 +1102,7 @@
                     if (!quesrySnapsho.empty) {
                         quesrySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1135,7 +1135,7 @@
                     if (!querrySnapsho.empty) {
                         querrySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1168,7 +1168,7 @@
                     if (!querorySnapsho.empty) {
                         querorySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,type,gamerate, amtbid,username } = data;
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1201,7 +1201,7 @@
                     if (!queorrySnapsho.empty) {
                         queorrySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,numbid2,type,gamerate, amtbid,username } = data;
+                            const { numbid,numbid2,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1234,7 +1234,7 @@
                     if (!equerrySnapsho.empty) {
                         equerrySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,numbid2,type,gamerate, amtbid,username } = data;
+                            const { numbid,numbid2,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1267,7 +1267,7 @@
                     if (!mequerrySnapsho.empty) {
                         mequerrySnapsho.forEach(doc => {
                             const data = doc.data();
-                            const { numbid,numbid2,type,gamerate, amtbid,username } = data;
+                            const { numbid,numbid2,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
                             
                             const cellNumber = newRow.insertCell();
@@ -1301,15 +1301,478 @@
             
         });
         
-        function declareResult() {
+        $("#declareBtn").click(async function () {
+            const firebaseConfig = {
+                apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+                authDomain: "black-satta-f197b.firebaseapp.com",
+                projectId: "black-satta-f197b",
+                storageBucket: "black-satta-f197b.appspot.com",
+                messagingSenderId: "310887564056",
+                appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+                measurementId: "G-HWJ4VQGEDH"
+            };
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);                   
+            
             const game_name = document.getElementById('game').value;
             const session = document.getElementById('session').value;
-            const panel = document.getElementById('result_panel').value;
-            const single = document.getElementById('result_digit').value;
+            const panel = parseInt(document.getElementById('result_panel').value);
+            const single = parseInt(document.getElementById('result_digit').value);
 
+            try {
+                const asettingsf = collection(db, 'game_names');
+                const rtq = query(asettingsf,where('gameName', '==', game_name));
+                const querySnahot = await getDocs(rtq);
+                let num;
+                querySnahot.forEach(doc => {
+                    num = doc.data().gameNumber;
+                });
+                if(session==="open"){
+                    
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+                    const day = String(today.getDate()).padStart(2, '0');
+
+                    const date = `${year}-${month}-${day}`;
+
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999);
+                    const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
             
+                    let rowNumber = 1;
+                    const asettingsRef = doc(db, 'bid',game_name);
+                    const settingsRef = collection(asettingsRef ,'single_digit_open');
+                    const q = query(settingsRef,where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', single));
+                    const querySnapshot = await getDocs(q);
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
 
-        }
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsRef = doc(db, 'bid',game_name);
+                    const ettingsRef = collection(aettingsRef ,'single_panna_open');
+                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querySnapsho = await getDocs(eq);
+                    if (!querySnapsho.empty) {
+                        querySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aetingsRef = doc(db, 'bid',game_name);
+                    const etingsRef = collection(aetingsRef ,'double_panna_open');
+                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const quesrySnapsho = await getDocs(eqs);
+                    if (!quesrySnapsho.empty) {
+                        quesrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsef = doc(db, 'bid',game_name);
+                    const ettingsef = collection(aettingsef ,'triple_panna_open');
+                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querrySnapsho = await getDocs(eqr);
+                    if (!querrySnapsho.empty) {
+                        querrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+
+                }
+
+                if(session==="close"){
+                    const first = parseInt(num.substring(0,3));
+                    let mid = parseInt(num.substring(4,5));
+                    let as = parseInt(num.substring(4,5));
+                    mid = mid*10 + single;
+                    const today = new Date();
+                    const year = today.getFullYear();
+                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
+                    const day = String(today.getDate()).padStart(2, '0');
+
+                    const date = `${year}-${month}-${day}`;
+
+                    const startOfDay = new Date(date);
+                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
+
+                    // Create a Date object for 23:59 PM of the specific date
+                    const endOfDay = new Date(date);
+                    endOfDay.setHours(23, 59, 59, 999);
+                    const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
+                    tableBody.innerHTML = ''; // Clear the table body before populating new data
+            
+                    let rowNumber = 1;
+                    const asettingsRef = doc(db, 'bid',game_name);
+                    const settingsRef = collection(asettingsRef ,'single_digit_close');
+                    const q = query(settingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', single));
+                    const querySnapshot = await getDocs(q);
+                    if (!querySnapshot.empty) {
+                        querySnapshot.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsRef = doc(db, 'bid',game_name);
+                    const ettingsRef = collection(aettingsRef ,'single_panna_close');
+                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querySnapsho = await getDocs(eq);
+                    if (!querySnapsho.empty) {
+                        querySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aetingsRef = doc(db, 'bid',game_name);
+                    const etingsRef = collection(aetingsRef ,'double_panna_close');
+                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const quesrySnapsho = await getDocs(eqs);
+                    if (!quesrySnapsho.empty) {
+                        quesrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aettingsef = doc(db, 'bid',game_name);
+                    const ettingsef = collection(aettingsef ,'triple_panna_close');
+                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const querrySnapsho = await getDocs(eqr);
+                    if (!querrySnapsho.empty) {
+                        querrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const atingsef = doc(db, 'bid',game_name);
+                    const etingsef = collection(atingsef ,'jodi_digit');
+                    const eooq = query(etingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', mid));
+                    const querorySnapsho = await getDocs(eooq);
+                    if (!querorySnapsho.empty) {
+                        querorySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const aetngsef = doc(db, 'bid',game_name);
+                    const ettigsef = collection(aetngsef ,'full_samgam');
+                    const eqor = query(ettigsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid2', '==', panel),where('numbid', '==', first));
+                    const queorrySnapsho = await getDocs(eqor);
+                    if (!queorrySnapsho.empty) {
+                        queorrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,numbid2,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid+" "+numbid2;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                    const eaettingsef = doc(db, 'bid',game_name);
+                    const eettingsef = collection(eaettingsef ,'half_samgam_open');
+                    const eeqr = query(eettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', as),where('numbid2', '==', panel));
+                    const equerrySnapsho = await getDocs(eeqr);
+                    if (!equerrySnapsho.empty) {
+                        equerrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,numbid2,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid+" "+numbid2;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+                    
+                    const meaettingsef = doc(db, 'bid',game_name);
+                    const meettingsef = collection(meaettingsef ,'half_samgam_close');
+                    const meeqr = query(meettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first),where('numbid2', '==', single));
+                    const mequerrySnapsho = await getDocs(meeqr);
+                    if (!mequerrySnapsho.empty) {
+                        mequerrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,numbid2,type,gamerate, userId, timestamp, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid+" "+numbid2;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            
+                            button.setAttribute('data-bs-toggle', 'modal');
+                            button.setAttribute('data-bs-target', '#addFundsModal');
+                            cellaction.appendChild(button);
+                        });
+                    }
+
+                }
+            } catch (error) {
+                console.error('Error getting document:', error);
+            } 
+            
+            
+        });
 
         
 

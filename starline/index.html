@@ -353,14 +353,9 @@
                                 <input type="text" name="game_name" id="game_name" class="form-control" required
                                        placeholder="Enter Game Name"/>
                             </div>
-
-                            <div class="form-group col-6 mt-2">
-                                <label for="open_time">Open Time</label>
-                                <input required name="open_time" id="open_time" class="form-control digits" type="time"
-                                       value="">
-
-                            </div>
-                            <div class="form-group col-6 mt-2">
+                            
+                            <h5> </h5>
+                            <div class="form-group col-12">
                                 <label for="close_time">Close Time</label>
                                 <input required name="close_time" id="close_time" class="form-control digits"
                                        type="time"
@@ -577,6 +572,33 @@
                     {
                         cellMarketStatus.textContent = "closed";
                     }
+                    const buttons = document.createElement('button');
+                    buttons.textContent ='DELETE'
+                    buttons.classList.add("btn", "btn-danger", "btn-xs", "mr-1");
+                    buttons.addEventListener("click", async () => {
+                        const formData = new FormData();
+                        formData.append('game_name', gameName);
+                        try {
+                            // Send the value to the server using fetch API                    
+                            const response = await fetch('https://blacksatta.onrender.com/updd', {
+                                method: 'POST',
+                                body: formData,
+                            });
+                            // Check if the request was successful
+                            if (response.ok) {
+                                // Reload the page after sending the value to the server
+                                window.location.reload();
+                            } else {
+                                // Handle the error if the request was not successful
+                                console.error('Error sending data to the server');
+                            }
+                        } catch (error) {
+                            // Handle any other errors that might occur
+                            console.error('Error:', error);
+                        }
+                    });
+
+                    cellAction.appendChild(buttons);
             });
         } catch (error) {
             console.error('Error getting document:', error);

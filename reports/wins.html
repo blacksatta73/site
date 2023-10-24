@@ -498,12 +498,8 @@
                 }
             })
 
-            $.get('/api/markets/games-list', function (returnedData) {
-                $('#game_name').select2({
-                    placeholder: 'Select Game Name', data: returnedData
-                });
-            }).fail(function () {
-                console.log("error");
+            $('#game_name').select2({
+                placeholder: 'Select Game Name', data: returnedData
             });
         })
     </script>

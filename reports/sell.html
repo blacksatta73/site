@@ -836,7 +836,7 @@
                     //const endTimestamp = endOfDay.getTime();
 
                     const settingsRef = collection(db, 'bid_history_admin');
-                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'single_pana'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'single_panna'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
                     const querySnapshot = await getDocs(q);
                     const tableBody = document.getElementById('single_pana').getElementsByTagName('tbody')[0];
                     tableBody.innerHTML = ''; // Clear the table body before populating new data
@@ -919,7 +919,7 @@
                     //const endTimestamp = endOfDay.getTime();
 
                     const settingsRef = collection(db, 'bid_history_admin');
-                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'double_pana'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'double_panna'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
                     const querySnapshot = await getDocs(q);
                     const tableBody = document.getElementById('double_pana').getElementsByTagName('tbody')[0];
                     tableBody.innerHTML = ''; // Clear the table body before populating new data
@@ -1002,7 +1002,7 @@
                     //const endTimestamp = endOfDay.getTime();
 
                     const settingsRef = collection(db, 'bid_history_admin');
-                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'triple_pana'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const q = query(settingsRef, where('game_name', '==', name), where('oc', '==', types), where('type', '==', 'triple_panna'),where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
                     const querySnapshot = await getDocs(q);
                     const tableBody = document.getElementById('triple_pana').getElementsByTagName('tbody')[0];
                     tableBody.innerHTML = ''; // Clear the table body before populating new data
