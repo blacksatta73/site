@@ -992,6 +992,7 @@
                 if(session==="close"){
                     const first = parseInt(num.substring(0,3));
                     let mid = parseInt(num.substring(4,5));
+                    let as = parseInt(num.substring(4,5));
                     mid = mid*10 + single;
                     const today = new Date();
                     const year = today.getFullYear();
@@ -1214,8 +1215,73 @@
                         });
                     }
 
+                    const eaettingsef = doc(db, 'bid',game_name);
+                    const eettingsef = collection(eaettingsef ,'half_samgam_open');
+                    const eeqr = query(eettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', as),where('numbid2', '==', panel));
+                    const equerrySnapsho = await getDocs(eeqr);
+                    if (!equerrySnapsho.empty) {
+                        equerrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,numbid2,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid+" "+numbid2;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
                     
-                    
+                    const meaettingsef = doc(db, 'bid',game_name);
+                    const meettingsef = collection(meaettingsef ,'half_samgam_close');
+                    const meeqr = query(meettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first),where('numbid2', '==', single));
+                    const mequerrySnapsho = await getDocs(meeqr);
+                    if (!mequerrySnapsho.empty) {
+                        mequerrySnapsho.forEach(doc => {
+                            const data = doc.data();
+                            const { numbid,numbid2,type,gamerate, amtbid,username } = data;
+                            const newRow = tableBody.insertRow();
+                            
+                            const cellNumber = newRow.insertCell();
+                            const cellusername = newRow.insertCell();
+                            const cellgame = newRow.insertCell();
+                            const celldigit = newRow.insertCell();
+                            const cellwinp = newRow.insertCell();
+                            const cellaction = newRow.insertCell();
+
+                            cellNumber.textContent = rowNumber++;
+                            cellusername.textContent = username;
+                            cellgame.textContent = type;
+                            celldigit.textContent = numbid+" "+numbid2;
+                            cellwinp.textContent = (amtbid*gamerate)/10;
+
+                            const button = document.createElement('button');
+                            button.textContent ='EDIT'
+                            button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                            const link = ``;
+                            button.onclick = function() {
+                                window.location.href = link;
+                            };
+                            cellaction.appendChild(button);
+                        });
+                    }
 
                 }
             } catch (error) {
