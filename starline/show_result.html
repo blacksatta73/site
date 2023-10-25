@@ -305,38 +305,14 @@
                         <div class="col-12 col-sm-12 col-lg-12">
 
         <div class="row">
-
+            <div class="card">
             <div class="col-sm-12 col-12 ">
-                <form method="post" action="starline/declare_result">
-                    <input type="hidden" name="_token" value="7vWK6oBK61IBRCLYr147qH5uw5HuHHuXxFZbOdyh">                    <div class="card">
-
-                        <div class="card-header">
-
-                            
-
-                        </div>
+                
+                    
 
                         <div class="card-body">
                             <h5>Starline Declare Result</h5>
                             <div class="row">
-
-                                <div class="form-group col-md-4" style="margin-top:auto;">
-
-                                    <label>Result Date</label>
-
-                                    <div class="date-picker">
-
-                                        <div class="input-group">
-
-                                            <input class="form-control digits" type="date" data-date-format="yyyy-mm-dd"
-                                                   data-language="en" name="date" id="date"
-                                                   placeholder="Enter Start Date" required
-                                                   data-original-title="" title="">
-                                        </div>
-
-                                    </div>
-
-                                </div>
 
                                 <div class="form-group col-md-4">
                                     <label class="col-form-label">Game Name</label>
@@ -357,7 +333,7 @@
                         </div>
 
                     </div>
-
+                </div>
                     <div class="card display_none" id="starline_result_form_card">
                         <div class="card-body">
                             <div class="row">
@@ -608,7 +584,8 @@
                                             style="margin-left: 10px;margin-top: 36px;">Show Winner
                                     </button>
 
-                                    <button type="submit" class="btn btn-primary"
+                                    <button type="submit" id="decbtn" name="decbtn"
+                                            class="btn btn-primary"
                                             style="margin-left: 10px;margin-top: 36px;">Save
                                     </button>
                                 </div>
@@ -616,7 +593,7 @@
                         </div>
                     </div>
 
-                </form>
+                
 
             </div>
 
@@ -625,8 +602,32 @@
 
     </div>
 
-    <div class="row">
-        <span id="winners" style="width: -webkit-fill-available;"></span>
+    <div class="card">
+
+        <div class="card-header p-t-15 p-b-15">
+
+        </div>
+
+        <div class="card-body">
+            <h5>Win User List </h5>
+            <div class="table-responsive">
+                <table id="bidHistory" class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Game Type</th>
+                        <th>Bet Digit</th>
+                        <th>Win Points</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </div>
 
     <div class="col-12">
@@ -658,6 +659,7 @@
             document.getElementById("starline_result_form_card").style.display = "block";
         }
     </script>
+
 
                 </div>
                 <!-- container-fluid -->
@@ -773,14 +775,7 @@
                 const game_name = document.getElementById('starline_game').value;
                 const panel = document.getElementById('starline_result_panel').value;
                 const single = document.getElementById('result_digit').value;
-                $.ajax({
-                    type: 'post',
-                    url: '/api/bids/starline_winner_list',
-                    data: {game_name: game_name, panel: panel, single: single},
-                    success: function (response) {
-                        $('#winners').html(response)
-                    }
-                })
+                
             });
         });
     </script>
@@ -881,12 +876,11 @@
                             buttons.classList.add("btn", "btn-danger", "btn-xs", "mr-1");
                             buttons.addEventListener("click", async () => {
                                 
-                                const numm = '***-*'+gameNumber.substring(5); 
+                                const numm = '***-*'; 
     
                                 const formData = new FormData();
                                 formData.append('gameName', gameName);
                                 formData.append('gameNumber',numm)
-                                console.log(formData);
                                 try {
                                     // Send the value to the server using fetch API                    
                                     const response = await fetch('https://blacksatta.onrender.com/sav', {
@@ -948,15 +942,7 @@
         populateFormFields();   
     
     </script>
-    <script>
-        $.ajax({
-            type: 'get',
-            url: '/api/date',
-            success: function (response) {
-                document.getElementById('date').value = response;
-            }
-        })
-    </script>
+
 
     <script>
         function showMe(i) {
@@ -972,7 +958,57 @@
         }
 
     </script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+    
+    $("#decbtn").click(async function () {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                   
+         
+        const game_name = document.getElementById('starline_game').value;
+        const panel = document.getElementById('starline_result_panel').value;
+        const single = document.getElementById('result_digit').value;
 
+        try {
+            const num = panel+"-"+single;
+            const formData = new FormData();
+            formData.append('gameName', game_name);
+            formData.append('gameNumber',num)
+            try {
+                // Send the value to the server using fetch API                    
+                const response = await fetch('https://blacksatta.onrender.com/sav', {
+                    method: 'POST',
+                    body: formData,
+                });
+                // Check if the request was successful
+                if (response.ok) {
+                    // Reload the page after sending the value to the server
+                    window.location.reload();
+                } else {
+                    // Handle the error if the request was not successful
+                    console.error('Error sending data to the server');
+                }
+            } catch (error) {
+                // Handle any other errors that might occur
+                console.error('Error:', error);
+            }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        } 
+        
+        
+    });
+</script>
 
 
 <!-- App js -->
