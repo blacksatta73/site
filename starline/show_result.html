@@ -769,16 +769,6 @@
     });
 </script>
 
-    <script>
-        $(document).ready(function () {
-            $("#showWinnerBtn").click(function () {
-                const game_name = document.getElementById('starline_game').value;
-                const panel = document.getElementById('starline_result_panel').value;
-                const single = document.getElementById('result_digit').value;
-                
-            });
-        });
-    </script>
 
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/datatables.init.js"></script>
@@ -962,6 +952,37 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
     import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
     
+    $("#showWinnerBtn").click(async function () {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app); 
+
+        const game_name = document.getElementById('starline_game').value;
+        const panel = document.getElementById('starline_result_panel').value;
+        const single = document.getElementById('result_digit').value;
+
+        try{
+
+            const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear the table body before populating new data
+    
+            let rowNumber = 1;
+            
+            
+        }catch (error) {
+                console.error('Error getting document:', error);
+            } 
+        
+    });
+
     $("#decbtn").click(async function () {
         const firebaseConfig = {
             apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
