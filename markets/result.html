@@ -663,6 +663,32 @@
     
             </div>
 
+            <div class="card">
+
+                <div class="card-header p-t-15 p-b-15">
+    
+                </div>
+    
+                <div class="card-body">
+                    <h5>Declare History </h5>
+                    <div class="table-responsive">
+                        <table id="lastbids" class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Game Name</th>
+                                <th>Open</th>
+                                <th>Close</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+    
+            </div>
+
         </div>
     </div>
 
@@ -817,6 +843,63 @@
     populateFormFields();   
 
 </script>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.6/firebase-app.js";
+    import {  getFirestore, collection,doc, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.6.6/firebase-firestore.js';
+
+    // 
+// Function to fetch data from Firestore and populate the form fields
+    async function populateFormFields() {
+        const firebaseConfig = {
+            apiKey: "AIzaSyBo0HFBbSciDSprZ6ATVw6D7qJoijenkBs",
+            authDomain: "black-satta-f197b.firebaseapp.com",
+            projectId: "black-satta-f197b",
+            storageBucket: "black-satta-f197b.appspot.com",
+            messagingSenderId: "310887564056",
+            appId: "1:310887564056:web:08f4e4375caa4224c9946d",
+            measurementId: "G-HWJ4VQGEDH"
+        };
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);                            
+
+        const tableBody = document.getElementById('lastbids').getElementsByTagName('tbody')[0];
+        tableBody.innerHTML = ''; // Clear the table body before populating new data
+
+        let rowNumber = 1;
+
+        try {
+                const settingsRef = collection(db, 'game_names');
+                const q = query(settingsRef, where('exists', '==', true));
+                const querySnapshot = await getDocs(q);
+                if (!querySnapshot.empty) {
+                    querySnapshot.forEach(doc => {
+                        const gameName = doc.data().gameName;
+                        const gameNumber = doc.data().gameNumber;
+                        const newRow = tableBody.insertRow();
+                            
+                        const cellNumber = newRow.insertCell();
+                        const cellgamename = newRow.insertCell();
+                        const cellfirst = newRow.insertCell();
+                        const celllast = newRow.insertCell();
+
+                        cellNumber.textContent = rowNumber++;
+                        cellgamename.textContent = gameName;
+                        cellfirst.textContent = gameNumber.substring(0,3);
+                        celllast.textContent = gameNumber.substring(7);
+                        
+                    });
+                }
+        } catch (error) {
+            console.error('Error getting document:', error);
+        }   
+    }
+
+// Call the function to populate form fields
+    populateFormFields();   
+
+</script>
+
     <script src="https://blacksatta73.github.io/site/assets/libs/datatables/datatables.min.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/pages/datatables.init.js"></script>
     <script src="https://blacksatta73.github.io/site/assets/js/custom.js"></script>
