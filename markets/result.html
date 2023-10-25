@@ -962,7 +962,7 @@
                     button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
                     button.addEventListener("click", async () => {
                         const formData = new FormData();
-                        formData.append('game_name', gameName);
+                        formData.append('gameName', gameName);
                         console.log(formData);
                         try {
                             // Send the value to the server using fetch API                    
@@ -1026,15 +1026,17 @@
             const panel = parseInt(document.getElementById('result_panel').value);
             const single = parseInt(document.getElementById('result_digit').value);
 
-
             try {
                 const asettingsf = collection(db, 'game_names');
                 const rtq = query(asettingsf,where('gameName', '==', game_name));
                 const querySnahot = await getDocs(rtq);
                 let num;
+                let startOfDay;
                 querySnahot.forEach(doc => {
                     num = doc.data().gameNumber;
+                    startOfDay = doc.data().timestamps;
                 });
+                console.log(startOfDay);
 
                 if(session == "open")
                 {
@@ -1044,32 +1046,20 @@
                     num = num.substring(0,6)+single+"-"+panel
                 }
 
-                    const first = parseInt(num.substring(0,3));
-                    const mid = parseInt(num.substring(4,6));
-                    const last = parseInt(num.substring(7));
-                    const midf = parseInt(num.substring(4,5));
+                const first = parseInt(num.substring(0,3));
+                const mid = parseInt(num.substring(4,6));
+                const last = parseInt(num.substring(7));
+                const midf = parseInt(num.substring(4,5));
                     const mids = parseInt(num.substring(5,6));
                     
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
-                    const day = String(today.getDate()).padStart(2, '0');
-
-                    const date = `${year}-${month}-${day}`;
-
-                    const startOfDay = new Date(date);
-                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
-
-                    // Create a Date object for 23:59 PM of the specific date
-                    const endOfDay = new Date(date);
-                    endOfDay.setHours(23, 59, 59, 999);
+                    
                     const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
                     tableBody.innerHTML = ''; // Clear the table body before populating new data
             
                     let rowNumber = 1;
                     const asettingsRef = doc(db, 'bid',game_name);
                     const settingsRef = collection(asettingsRef ,'single_digit_open');
-                    const q = query(settingsRef,where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', midf));
+                    const q = query(settingsRef,where('timestamp', '>=', startOfDay),where('numbid', '==', midf));
                     const querySnapshot = await getDocs(q);
                     if (!querySnapshot.empty) {
                         querySnapshot.forEach(doc => {
@@ -1103,7 +1093,7 @@
 
                     const aettingsRef = doc(db, 'bid',game_name);
                     const ettingsRef = collection(aettingsRef ,'single_panna_open');
-                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first));
+                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('numbid', '==', first));
                     const querySnapsho = await getDocs(eq);
                     if (!querySnapsho.empty) {
                         querySnapsho.forEach(doc => {
@@ -1138,7 +1128,7 @@
 
                     const aetingsRef = doc(db, 'bid',game_name);
                     const etingsRef = collection(aetingsRef ,'double_panna_open');
-                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first));
+                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('numbid', '==', first));
                     const quesrySnapsho = await getDocs(eqs);
                     if (!quesrySnapsho.empty) {
                         quesrySnapsho.forEach(doc => {
@@ -1173,7 +1163,7 @@
 
                     const aettingsef = doc(db, 'bid',game_name);
                     const ettingsef = collection(aettingsef ,'triple_panna_open');
-                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first));
+                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('numbid', '==', first));
                     const querrySnapsho = await getDocs(eqr);
                     if (!querrySnapsho.empty) {
                         querrySnapsho.forEach(doc => {
@@ -1208,7 +1198,7 @@
 
                     const aasettingsRef = doc(db, 'bid',game_name);
                     const bsettingsRef = collection(aasettingsRef ,'single_digit_close');
-                    const bq = query(bsettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', mids));
+                    const bq = query(bsettingsRef, where('timestamp', '>=', startOfDay),where('numbid', '==', mids));
                     const bquerySnapshot = await getDocs(bq);
                     if (!bquerySnapshot.empty) {
                         bquerySnapshot.forEach(doc => {
@@ -1243,7 +1233,7 @@
 
                     const caettingsRef = doc(db, 'bid',game_name);
                     const cettingsRef = collection(caettingsRef ,'single_panna_close');
-                    const ceq = query(cettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', last));
+                    const ceq = query(cettingsRef, where('timestamp', '>=', startOfDay),where('numbid', '==', last));
                     const cquerySnapsho = await getDocs(ceq);
                     if (!cquerySnapsho.empty) {
                         cquerySnapsho.forEach(doc => {
@@ -1278,7 +1268,7 @@
 
                     const daetingsRef = doc(db, 'bid',game_name);
                     const detingsRef = collection(daetingsRef ,'double_panna_close');
-                    const deqs = query(detingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', last));
+                    const deqs = query(detingsRef, where('timestamp', '>=', startOfDay),where('numbid', '==', last));
                     const dquesrySnapsho = await getDocs(deqs);
                     if (!dquesrySnapsho.empty) {
                         dquesrySnapsho.forEach(doc => {
@@ -1313,7 +1303,7 @@
 
                     const faettingsef = doc(db, 'bid',game_name);
                     const fettingsef = collection(faettingsef ,'triple_panna_close');
-                    const feqr = query(fettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', last));
+                    const feqr = query(fettingsef, where('timestamp', '>=', startOfDay),where('numbid', '==', last));
                     const fquerrySnapsho = await getDocs(feqr);
                     if (!fquerrySnapsho.empty) {
                         fquerrySnapsho.forEach(doc => {
@@ -1348,7 +1338,7 @@
 
                     const atingsef = doc(db, 'bid',game_name);
                     const etingsef = collection(atingsef ,'jodi_digit');
-                    const eooq = query(etingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', mid));
+                    const eooq = query(etingsef, where('timestamp', '>=', startOfDay),where('numbid', '==', mid));
                     const querorySnapsho = await getDocs(eooq);
                     if (!querorySnapsho.empty) {
                         querorySnapsho.forEach(doc => {
@@ -1383,7 +1373,7 @@
 
                     const aetngsef = doc(db, 'bid',game_name);
                     const ettigsef = collection(aetngsef ,'full_samgam');
-                    const eqor = query(ettigsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid2', '==', last),where('numbid', '==', first));
+                    const eqor = query(ettigsef, where('timestamp', '>=', startOfDay),where('numbid2', '==', last),where('numbid', '==', first));
                     const queorrySnapsho = await getDocs(eqor);
                     if (!queorrySnapsho.empty) {
                         queorrySnapsho.forEach(doc => {
@@ -1418,7 +1408,7 @@
 
                     const eaettingsef = doc(db, 'bid',game_name);
                     const eettingsef = collection(eaettingsef ,'half_samgam_open');
-                    const eeqr = query(eettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', midf),where('numbid2', '==', last));
+                    const eeqr = query(eettingsef, where('timestamp', '>=', startOfDay),where('numbid', '==', midf),where('numbid2', '==', last));
                     const equerrySnapsho = await getDocs(eeqr);
                     if (!equerrySnapsho.empty) {
                         equerrySnapsho.forEach(doc => {
@@ -1453,7 +1443,7 @@
                     
                     const meaettingsef = doc(db, 'bid',game_name);
                     const meettingsef = collection(meaettingsef ,'half_samgam_close');
-                    const meeqr = query(meettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first),where('numbid2', '==', mids));
+                    const meeqr = query(meettingsef, where('timestamp', '>=', startOfDay),where('numbid', '==', first),where('numbid2', '==', mids));
                     const mequerrySnapsho = await getDocs(meeqr);
                     if (!mequerrySnapsho.empty) {
                         mequerrySnapsho.forEach(doc => {
