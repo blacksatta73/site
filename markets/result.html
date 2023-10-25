@@ -1039,7 +1039,7 @@
                     num = panel +"-"+single+num.substring(5);
                 }
                 else{
-                    num = num.substring(0,6)+single+"-"+panel
+                    num = num.substring(0,5)+single+"-"+panel
                 }
 
                 const first = parseInt(num.substring(0,3));
@@ -1047,6 +1047,8 @@
                 const last = parseInt(num.substring(7));
                 const midf = parseInt(num.substring(4,5));
                     const mids = parseInt(num.substring(5,6));
+
+                    console.log(num)
                     
                     
                     const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
@@ -1353,7 +1355,7 @@
                             cellNumber.textContent = rowNumber++;
                             cellusername.textContent = username;
                             cellgame.textContent = type;
-                            cellsession.textContent = "Close";
+                            cellsession.textContent = "";
                             celldigit.textContent = numbid;
                             cellwinp.textContent = (amtbid*gamerate)/10;
 
@@ -1367,8 +1369,11 @@
                         });
                     }
 
+                    console.log(typeof last);
+                    console.log(typeof first);
+                    
                     const aetngsef = doc(db, 'bid',game_name);
-                    const ettigsef = collection(aetngsef ,'full_samgam');
+                    const ettigsef = collection(aetngsef ,'full_sangam');
                     const eqor = query(ettigsef, where('timestamp', '>=', startOfDay),where('numbid2', '==', last),where('numbid', '==', first));
                     const queorrySnapsho = await getDocs(eqor);
                     if (!queorrySnapsho.empty) {
@@ -1388,7 +1393,7 @@
                             cellNumber.textContent = rowNumber++;
                             cellusername.textContent = username;
                             cellgame.textContent = type;
-                            cellsession.textContent = "Close";
+                            cellsession.textContent = "";
                             celldigit.textContent = numbid+" "+numbid2;
                             cellwinp.textContent = (amtbid*gamerate)/10;
 
@@ -1423,7 +1428,7 @@
                             cellNumber.textContent = rowNumber++;
                             cellusername.textContent = username;
                             cellgame.textContent = type;
-                            cellsession.textContent = "Close";
+                            cellsession.textContent = "Open";
                             celldigit.textContent = numbid+" "+numbid2;
                             cellwinp.textContent = (amtbid*gamerate)/10;
 
@@ -1512,7 +1517,7 @@
                     num = panel +"-"+single+num.substring(5);
                 }
                 else{
-                    num = num.substring(0,6)+single+"-"+panel
+                    num = num.substring(0,5)+single+"-"+panel
                 }
 
                 const formData = new FormData();

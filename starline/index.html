@@ -572,6 +572,16 @@
                     {
                         cellMarketStatus.textContent = "closed";
                     }
+                    const button = document.createElement('button');
+                    button.textContent ='EDIT'
+                    button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                    const link = `https://blacksatta73.github.io/site/starline/edit/gameProfile.html?gameName=${gameName}`;
+                    button.onclick = function() {
+                        window.location.href = link;
+                    };
+
+                    // Append the button to the cellAction cell
+                    cellAction.appendChild(button);
                     const buttons = document.createElement('button');
                     buttons.textContent ='DELETE'
                     buttons.classList.add("btn", "btn-danger", "btn-xs", "mr-1");

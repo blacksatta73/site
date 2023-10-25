@@ -533,7 +533,6 @@
             { 
                 querySnapshot.forEach(doc => {
                     const data = doc.data();
-                    console.log(data);
                     document.getElementById('open_time').value=doc.data().open;
                     document.getElementById('close_time').value=doc.data().close;
                     document.getElementById('game_name').value=doc.data().gameName;

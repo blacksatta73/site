@@ -563,6 +563,7 @@
 
                     querySnapshot.forEach(doc => {
                         const data = doc.data();
+                    
                         const { game_name,timestamp, points,number,oc , type,username } = data;
                         const newRow = tableBody.insertRow();
                         
