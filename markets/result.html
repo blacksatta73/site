@@ -679,6 +679,7 @@
                                 <th>#</th>
                                 <th>Game Name</th>
                                 <th>Open</th>
+                                <th>Mid</th>
                                 <th>Close</th>
                             </tr>
                             </thead>
@@ -882,11 +883,13 @@
                         const cellNumber = newRow.insertCell();
                         const cellgamename = newRow.insertCell();
                         const cellfirst = newRow.insertCell();
+                        const cellmid = newRow.insertCell();
                         const celllast = newRow.insertCell();
 
                         cellNumber.textContent = rowNumber++;
                         cellgamename.textContent = gameName;
                         cellfirst.textContent = gameNumber.substring(0,3);
+                        cellmid.textContent = gameNumber.substring(4,6);
                         celllast.textContent = gameNumber.substring(7);
                         
                     });
@@ -930,6 +933,7 @@
             const panel = parseInt(document.getElementById('result_panel').value);
             const single = parseInt(document.getElementById('result_digit').value);
 
+
             try {
                 const asettingsf = collection(db, 'game_names');
                 const rtq = query(asettingsf,where('gameName', '==', game_name));
@@ -938,7 +942,20 @@
                 querySnahot.forEach(doc => {
                     num = doc.data().gameNumber;
                 });
-                if(session==="open"){
+
+                if(session == "open")
+                {
+                    num = panel +"-"+single+num.substring(5);
+                }
+                else{
+                    num = num.substring(0,6)+single+"-"+panel
+                }
+
+                first = parseInt(num.substring(0,3));
+                mid = parseInt(num.substring(4,6));
+                last = parseInt(num.substring(7));
+                midf = parseInt(num.substring(4,5));
+                mids = parseInt(num.substring(5,6));
                     
                     const today = new Date();
                     const year = today.getFullYear();
@@ -959,7 +976,7 @@
                     let rowNumber = 1;
                     const asettingsRef = doc(db, 'bid',game_name);
                     const settingsRef = collection(asettingsRef ,'single_digit_open');
-                    const q = query(settingsRef,where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', single));
+                    const q = query(settingsRef,where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', midf));
                     const querySnapshot = await getDocs(q);
                     if (!querySnapshot.empty) {
                         querySnapshot.forEach(doc => {
@@ -993,7 +1010,7 @@
 
                     const aettingsRef = doc(db, 'bid',game_name);
                     const ettingsRef = collection(aettingsRef ,'single_panna_open');
-                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first));
                     const querySnapsho = await getDocs(eq);
                     if (!querySnapsho.empty) {
                         querySnapsho.forEach(doc => {
@@ -1028,7 +1045,7 @@
 
                     const aetingsRef = doc(db, 'bid',game_name);
                     const etingsRef = collection(aetingsRef ,'double_panna_open');
-                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first));
                     const quesrySnapsho = await getDocs(eqs);
                     if (!quesrySnapsho.empty) {
                         quesrySnapsho.forEach(doc => {
@@ -1063,7 +1080,7 @@
 
                     const aettingsef = doc(db, 'bid',game_name);
                     const ettingsef = collection(aettingsef ,'triple_panna_open');
-                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
+                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first));
                     const querrySnapsho = await getDocs(eqr);
                     if (!querrySnapsho.empty) {
                         querrySnapsho.forEach(doc => {
@@ -1096,37 +1113,12 @@
                         });
                     }
 
-
-                }
-
-                if(session==="close"){
-                    const first = parseInt(num.substring(0,3));
-                    let mid = parseInt(num.substring(4,5));
-                    let as = parseInt(num.substring(4,5));
-                    mid = mid*10 + single;
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed, so add 1
-                    const day = String(today.getDate()).padStart(2, '0');
-
-                    const date = `${year}-${month}-${day}`;
-
-                    const startOfDay = new Date(date);
-                    startOfDay.setHours(0, 0, 0, 0); // Set hours, minutes, seconds, and milliseconds to 0
-
-                    // Create a Date object for 23:59 PM of the specific date
-                    const endOfDay = new Date(date);
-                    endOfDay.setHours(23, 59, 59, 999);
-                    const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
-                    tableBody.innerHTML = ''; // Clear the table body before populating new data
-            
-                    let rowNumber = 1;
-                    const asettingsRef = doc(db, 'bid',game_name);
-                    const settingsRef = collection(asettingsRef ,'single_digit_close');
-                    const q = query(settingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', single));
-                    const querySnapshot = await getDocs(q);
-                    if (!querySnapshot.empty) {
-                        querySnapshot.forEach(doc => {
+                    const aasettingsRef = doc(db, 'bid',game_name);
+                    const bsettingsRef = collection(aasettingsRef ,'single_digit_close');
+                    const bq = query(bsettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', mids));
+                    const bquerySnapshot = await getDocs(bq);
+                    if (!bquerySnapshot.empty) {
+                        bquerySnapshot.forEach(doc => {
                             const data = doc.data();
                             const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
@@ -1156,12 +1148,12 @@
                         });
                     }
 
-                    const aettingsRef = doc(db, 'bid',game_name);
-                    const ettingsRef = collection(aettingsRef ,'single_panna_close');
-                    const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
-                    const querySnapsho = await getDocs(eq);
-                    if (!querySnapsho.empty) {
-                        querySnapsho.forEach(doc => {
+                    const caettingsRef = doc(db, 'bid',game_name);
+                    const cettingsRef = collection(caettingsRef ,'single_panna_close');
+                    const ceq = query(cettingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', last));
+                    const cquerySnapsho = await getDocs(ceq);
+                    if (!cquerySnapsho.empty) {
+                        cquerySnapsho.forEach(doc => {
                             const data = doc.data();
                             const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
@@ -1191,12 +1183,12 @@
                         });
                     }
 
-                    const aetingsRef = doc(db, 'bid',game_name);
-                    const etingsRef = collection(aetingsRef ,'double_panna_close');
-                    const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
-                    const quesrySnapsho = await getDocs(eqs);
-                    if (!quesrySnapsho.empty) {
-                        quesrySnapsho.forEach(doc => {
+                    const daetingsRef = doc(db, 'bid',game_name);
+                    const detingsRef = collection(daetingsRef ,'double_panna_close');
+                    const deqs = query(detingsRef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', last));
+                    const dquesrySnapsho = await getDocs(deqs);
+                    if (!dquesrySnapsho.empty) {
+                        dquesrySnapsho.forEach(doc => {
                             const data = doc.data();
                             const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
@@ -1226,12 +1218,12 @@
                         });
                     }
 
-                    const aettingsef = doc(db, 'bid',game_name);
-                    const ettingsef = collection(aettingsef ,'triple_panna_close');
-                    const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', panel));
-                    const querrySnapsho = await getDocs(eqr);
-                    if (!querrySnapsho.empty) {
-                        querrySnapsho.forEach(doc => {
+                    const faettingsef = doc(db, 'bid',game_name);
+                    const fettingsef = collection(faettingsef ,'triple_panna_close');
+                    const feqr = query(fettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', last));
+                    const fquerrySnapsho = await getDocs(feqr);
+                    if (!fquerrySnapsho.empty) {
+                        fquerrySnapsho.forEach(doc => {
                             const data = doc.data();
                             const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
                             const newRow = tableBody.insertRow();
@@ -1298,7 +1290,7 @@
 
                     const aetngsef = doc(db, 'bid',game_name);
                     const ettigsef = collection(aetngsef ,'full_samgam');
-                    const eqor = query(ettigsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid2', '==', panel),where('numbid', '==', first));
+                    const eqor = query(ettigsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid2', '==', last),where('numbid', '==', first));
                     const queorrySnapsho = await getDocs(eqor);
                     if (!queorrySnapsho.empty) {
                         queorrySnapsho.forEach(doc => {
@@ -1333,7 +1325,7 @@
 
                     const eaettingsef = doc(db, 'bid',game_name);
                     const eettingsef = collection(eaettingsef ,'half_samgam_open');
-                    const eeqr = query(eettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', as),where('numbid2', '==', panel));
+                    const eeqr = query(eettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', midf),where('numbid2', '==', last));
                     const equerrySnapsho = await getDocs(eeqr);
                     if (!equerrySnapsho.empty) {
                         equerrySnapsho.forEach(doc => {
@@ -1368,7 +1360,7 @@
                     
                     const meaettingsef = doc(db, 'bid',game_name);
                     const meettingsef = collection(meaettingsef ,'half_samgam_close');
-                    const meeqr = query(meettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first),where('numbid2', '==', single));
+                    const meeqr = query(meettingsef, where('timestamp', '>=', startOfDay),where('timestamp', '<=', endOfDay),where('numbid', '==', first),where('numbid2', '==', mids));
                     const mequerrySnapsho = await getDocs(meeqr);
                     if (!mequerrySnapsho.empty) {
                         mequerrySnapsho.forEach(doc => {
@@ -1401,7 +1393,7 @@
                         });
                     }
 
-                }
+                
             } catch (error) {
                 console.error('Error getting document:', error);
             } 
