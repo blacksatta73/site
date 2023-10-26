@@ -601,6 +601,11 @@
         </div>
 
     </div>
+    <script>
+        function showStarlineResultForm() {
+            document.getElementById("starline_result_form_card").style.display = "block";
+        }
+    </script>
 
     <div class="card">
 
@@ -654,11 +659,31 @@
     </div>
 
 
-    <script>
-        function showStarlineResultForm() {
-            document.getElementById("starline_result_form_card").style.display = "block";
-        }
-    </script>
+    
+    <div class="modal fade" id="addFundsModal" aria-labelledby="addFundsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addFundsModalLabel">Edit Bid</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id='addfunds'>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="recipient-name" class="col-form-label">Bid </label>
+                            <input type="number" class="form-control" name="amount" id="amount"
+                                   placeholder="Enter Bid">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
                 </div>
@@ -902,7 +927,7 @@
                             console.log(formData);
                             try {
                                 // Send the value to the server using fetch API                    
-                                const response = await fetch('https://blacksatta.onrender.com/decres', {
+                                const response = await fetch('https://blacksatta.onrender.com/decressg', {
                                     method: 'POST',
                                     body: formData,
                                 });
@@ -966,16 +991,154 @@
         const db = getFirestore(app); 
 
         const game_name = document.getElementById('starline_game').value;
-        const panel = document.getElementById('starline_result_panel').value;
-        const single = document.getElementById('result_digit').value;
+        const panel = parseInt(document.getElementById('starline_result_panel').value);
+        const single = parseInt(document.getElementById('result_digit').value);
 
         try{
+            const asettingsf = collection(db, 'game_names_sg');
+            const rtq = query(asettingsf,where('gameName', '==', game_name));
+            const querySnahot = await getDocs(rtq);
+            let startOfDay;
+            querySnahot.forEach(doc => {
+                startOfDay = doc.data().timestamps;
+            });
 
             const tableBody = document.getElementById('bidHistory').getElementsByTagName('tbody')[0];
             tableBody.innerHTML = ''; // Clear the table body before populating new data
     
             let rowNumber = 1;
-            
+
+            const asettingsRef = doc(db, 'bid_sg',game_name);
+            const settingsRef = collection(asettingsRef ,'single_digit');
+            const q = query(settingsRef,where('timestamp', '>=', startOfDay),where('numbid', '==', single));
+            const querySnapshot = await getDocs(q);
+            if (!querySnapshot.empty) {
+                querySnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                    const newRow = tableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const cellusername = newRow.insertCell();
+                    const cellgame = newRow.insertCell();
+                    const celldigit = newRow.insertCell();
+                    const cellwinp = newRow.insertCell();
+                    const cellaction = newRow.insertCell();
+
+                    cellNumber.textContent = rowNumber++;
+                    cellusername.textContent = username;
+                    cellgame.textContent = type;
+                    celldigit.textContent = numbid;
+                    cellwinp.textContent = (amtbid*gamerate)/10;
+
+                    const button = document.createElement('button');
+                    button.textContent ='EDIT'
+                    button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                    button.setAttribute('data-bs-toggle', 'modal');
+                    button.setAttribute('data-bs-target', '#addFundsModal');
+                    cellaction.appendChild(button);
+                });
+            }
+
+            const aettingsRef = doc(db, 'bid_sg',game_name);
+            const ettingsRef = collection(aettingsRef ,'single_panna');
+            const eq = query(ettingsRef, where('timestamp', '>=', startOfDay),where('numbid', '==', panel));
+            const querySnapsho = await getDocs(eq);
+            if (!querySnapsho.empty) {
+                querySnapsho.forEach(doc => {
+                    const data = doc.data();
+                    const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                    const newRow = tableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const cellusername = newRow.insertCell();
+                    const cellgame = newRow.insertCell();
+                    const celldigit = newRow.insertCell();
+                    const cellwinp = newRow.insertCell();
+                    const cellaction = newRow.insertCell();
+
+                    cellNumber.textContent = rowNumber++;
+                    cellusername.textContent = username;
+                    cellgame.textContent = type;
+                    celldigit.textContent = numbid;
+                    cellwinp.textContent = (amtbid*gamerate)/10;
+
+                    const button = document.createElement('button');
+                    button.textContent ='EDIT'
+                    button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                    
+                    button.setAttribute('data-bs-toggle', 'modal');
+                    button.setAttribute('data-bs-target', '#addFundsModal');
+                    cellaction.appendChild(button);
+                });
+            }
+
+            const aetingsRef = doc(db, 'bid_sg',game_name);
+            const etingsRef = collection(aetingsRef ,'double_panna');
+            const eqs = query(etingsRef, where('timestamp', '>=', startOfDay),where('numbid', '==', panel));
+            const quesrySnapsho = await getDocs(eqs);
+            if (!quesrySnapsho.empty) {
+                quesrySnapsho.forEach(doc => {
+                    const data = doc.data();
+                    const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                    const newRow = tableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const cellusername = newRow.insertCell();
+                    const cellgame = newRow.insertCell();
+                    const celldigit = newRow.insertCell();
+                    const cellwinp = newRow.insertCell();
+                    const cellaction = newRow.insertCell();
+
+                    cellNumber.textContent = rowNumber++;
+                    cellusername.textContent = username;
+                    cellgame.textContent = type;
+                    celldigit.textContent = numbid;
+                    cellwinp.textContent = (amtbid*gamerate)/10;
+
+                    const button = document.createElement('button');
+                    button.textContent ='EDIT'
+                    button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                    
+                    button.setAttribute('data-bs-toggle', 'modal');
+                    button.setAttribute('data-bs-target', '#addFundsModal');
+                    cellaction.appendChild(button);
+                });
+            }
+
+            const aettingsef = doc(db, 'bid_sg',game_name);
+            const ettingsef = collection(aettingsef ,'triple_panna');
+            const eqr = query(ettingsef, where('timestamp', '>=', startOfDay),where('numbid', '==', panel));
+            const querrySnapsho = await getDocs(eqr);
+            if (!querrySnapsho.empty) {
+                querrySnapsho.forEach(doc => {
+                    const data = doc.data();
+                    const { numbid,type,gamerate, userId, timestamp, amtbid,username } = data;
+                    const newRow = tableBody.insertRow();
+                    
+                    const cellNumber = newRow.insertCell();
+                    const cellusername = newRow.insertCell();
+                    const cellgame = newRow.insertCell();
+                    const celldigit = newRow.insertCell();
+                    const cellwinp = newRow.insertCell();
+                    const cellaction = newRow.insertCell();
+
+                    cellNumber.textContent = rowNumber++;
+                    cellusername.textContent = username;
+                    cellgame.textContent = type;
+                    celldigit.textContent = numbid;
+                    cellwinp.textContent = (amtbid*gamerate)/10;
+
+                    const button = document.createElement('button');
+                    button.textContent ='EDIT'
+                    button.classList.add("btn", "btn-primary", "btn-xs", "mr-1");
+                    
+                    button.setAttribute('data-bs-toggle', 'modal');
+                    button.setAttribute('data-bs-target', '#addFundsModal');
+                    cellaction.appendChild(button);
+                });
+            }
+
             
         }catch (error) {
                 console.error('Error getting document:', error);
