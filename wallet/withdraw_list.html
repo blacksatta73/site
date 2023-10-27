@@ -501,7 +501,6 @@
                             button.classList.add('btn', 'btn-success', 'btn-sm', 'w-lg', 'btn-block');
                             button.style.width = button.scrollWidth + 'px';
                             celstatus.appendChild(button);
-
                             const buttons = document.createElement('button');
                             buttons.textContent ='Rejected';
                             buttons.classList.add('btn', 'btn-danger', 'btn-sm', 'w-lg', 'btn-block');
@@ -552,9 +551,7 @@
         formData.append('userId', userId);
         formData.append('points', points);
         formData.append('timestamp', createdTimestamp);
-        console.log(formData);
         try {
-            console.log(formData);
             const response = await fetch("https://blacksatta.onrender.com/arwith", {
                 method: "POST",
                 body: formData,
