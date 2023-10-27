@@ -386,7 +386,7 @@
                         .then(response => {
                             if (response.ok) {
                                 // Form submission was successful, redirect to the desired link
-                                window.location.href = 'https://blacksatta73.github.io/site/dashboard'; // Change this URL to the desired redirect URL
+                                window.location.href = 'https://blacksatta73.github.io/site/starline/index'; // Change this URL to the desired redirect URL
                             } else {
                                 // Handle errors if the form submission fails
                                 console.error('Form submission failed');
@@ -551,7 +551,7 @@
                 }  
                 querySnapshot.forEach(doc => {
                     const data = doc.data();
-                    const { gameName, open, gameNumber, bidopen } = data;
+                    const { gameName, close, gameNumber, bidopen } = data;
                     const newRow = tableBody.insertRow();
                     
                     const cellNumber = newRow.insertCell();
@@ -563,7 +563,7 @@
 
                     cellNumber.textContent = rowNumber++;
                     cellGameName.textContent = gameName;
-                    cellGameTime.textContent = open;
+                    cellGameTime.textContent = close;
                     cellResult.textContent = gameNumber;
                     if(bidopen===true)
                     {
