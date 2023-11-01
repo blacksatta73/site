@@ -566,7 +566,7 @@
                 const settingsRef = collection(db, 'game_names');
                 const q = query(settingsRef, where('exists', '==', true));
                 const querySnapshot = await getDocs(q);
-
+                
                 const tableBody = document.getElementById('gameNameList').getElementsByTagName('tbody')[0];
                 tableBody.innerHTML = ''; // Clear the table body before populating new data
         
@@ -576,7 +576,7 @@
                     
                 querySnapshot.forEach(doc => {
                     const data = doc.data();
-                    const { gameName, open,close, gameNumber, bidopen } = data;
+                    const { gameName, open,close,sun,timestamps,sat, gameNumber, bidopen } = data;
                     const newRow = tableBody.insertRow();
                     
                     const cellNumber = newRow.insertCell();
@@ -592,12 +592,39 @@
                     cellGameTime.textContent = open;
                     cellGameTimeclose.textContent = close;
                     cellResult.textContent = gameNumber;
-                    if(bidopen===true)
-                    {
-                        cellMarketStatus.textContent = "running";
-                    }else
+
+                    const currentDate = new Date();
+                    const currentDay = currentDate.getDay();
+                    if(currentDay==0 && sun ==0)
                     {
                         cellMarketStatus.textContent = "closed";
+                    }else if (currentDay==6 && sat ==0)
+                    {
+                        cellMarketStatus.textContent = "closed";
+                    }
+                    else{
+                        const jsDate = timestamps.toDate();
+
+                        // Get hours, minutes, and seconds from the Date object
+                        const firebaseHours = jsDate.getHours();
+                        const firebaseMinutes = jsDate.getMinutes();
+                        
+                        // Get current time
+                        const currentDate = new Date();
+                        const currentHours = currentDate.getHours();
+                        const currentMinutes = currentDate.getMinutes();
+                        
+                        // Compare current time with Firebase time
+                        if (
+                          currentHours < firebaseHours ||
+                          (currentHours === firebaseHours &&
+                            (currentMinutes <= firebaseMinutes))
+                        ){
+                            cellMarketStatus.textContent = "running";
+                        }
+                        else{
+                            cellMarketStatus.textContent = "closed";
+                        }
                     }
 
                     const button = document.createElement('button');
