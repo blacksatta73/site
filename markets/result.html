@@ -1621,7 +1621,8 @@
 
                 const formData = new FormData();
                 formData.append('gameName', game_name);
-                formData.append('gameNumber',num)
+                formData.append('gameNumber',num);
+                formData.append('session',session);
                 try {
                     // Send the value to the server using fetch API                    
                     const response = await fetch('https://blacksatta.onrender.com/save', {
