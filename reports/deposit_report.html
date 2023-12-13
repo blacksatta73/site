@@ -453,7 +453,7 @@
         const newPassword = formData.get("password");
 
             try {
-                const response = await fetch("https://blacksatta.onrender.com/change", {
+                const response = await fetch("https://main-ratan.onrender.com/change", {
                     method: "POST",
                     body: formData,
                 });
@@ -512,7 +512,7 @@
                     //const endTimestamp = endOfDay.getTime();
 
                     const settingsRef = collection(db, 'deposit');
-                    const q = query(settingsRef, where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay));
+                    const q = query(settingsRef, where('timestamp', '>=', startOfDay), where('timestamp', '<=', endOfDay), orderBy("timestamp","desc"));
                     const querySnapshot = await getDocs(q);
                     const tableBody = document.getElementById('depositHistory').getElementsByTagName('tbody')[0];
                     tableBody.innerHTML = ''; // Clear the table body before populating new data
@@ -531,7 +531,7 @@
                             const cellcredits = newRow.insertCell();
                             
                             cellNumber.textContent = rowNumber++;
-                            celldate.textContent = timestamp.toDate().toDateString().substring(0,11);
+                            celldate.textContent = timestamp.toDate().getHours() + ":" + timestamp.toDate().getMinutes()+" " + timestamp.toDate().toDateString().substring(0,11);
                             cellmno.textContent = mno;
                             cellusername.textContent = username;
                             cellcredits.textContent = credits;

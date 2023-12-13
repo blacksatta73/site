@@ -648,7 +648,7 @@
         const newPassword = formData.get("password");
 
             try {
-                const response = await fetch("https://blacksatta.onrender.com/change", {
+                const response = await fetch("https://main-ratan.onrender.com/change", {
                     method: "POST",
                     body: formData,
                 });
@@ -679,7 +679,7 @@
         formData.append('user', userId);
 
             try {
-                const response = await fetch("https://blacksatta.onrender.com/addfund", {
+                const response = await fetch("https://main-ratan.onrender.com/addfund", {
                     method: "POST",
                     body: formData,
                 });
@@ -714,7 +714,7 @@
         formData.set('amount', amt);
 
             try {
-                const response = await fetch("https://blacksatta.onrender.com/addfund", {
+                const response = await fetch("https://main-ratan.onrender.com/addfund", {
                     method: "POST",
                     body: formData,
                 });
@@ -784,7 +784,7 @@
                             var formData = new FormData();
                             formData.append('userId',userId);
                             try {
-                                const response = await fetch("https://blacksatta.onrender.com/appunapp", {
+                                const response = await fetch("https://main-ratan.onrender.com/appunapp", {
                                     method: "POST",
                                     body: formData,
                                 });

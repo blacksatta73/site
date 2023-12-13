@@ -773,7 +773,7 @@
         const newPassword = formData.get("password");
 
             try {
-                const response = await fetch("https://blacksatta.onrender.com/change", {
+                const response = await fetch("https://main-ratan.onrender.com/change", {
                     method: "POST",
                     body: formData,
                 });
@@ -890,7 +890,7 @@
                             formData.append('gameNumber',numm)
                             try {
                                 // Send the value to the server using fetch API                    
-                                const response = await fetch('https://blacksatta.onrender.com/save', {
+                                const response = await fetch('https://main-ratan.onrender.com/save', {
                                     method: 'POST',
                                     body: formData,
                                 });
@@ -923,7 +923,7 @@
                             formData.append('gameNumber',numm)
                             try {
                                 // Send the value to the server using fetch API                    
-                                const response = await fetch('https://blacksatta.onrender.com/save', {
+                                const response = await fetch('https://main-ratan.onrender.com/save', {
                                     method: 'POST',
                                     body: formData,
                                 });
@@ -950,7 +950,7 @@
                         formData.append('gameName', gameName);
                         try {
                             // Send the value to the server using fetch API                    
-                            const response = await fetch('https://blacksatta.onrender.com/decres', {
+                            const response = await fetch('https://main-ratan.onrender.com/decres', {
                                 method: 'POST',
                                 body: formData,
                             });
@@ -1612,7 +1612,7 @@
                 formData.append('session',session);
                 try {
                     // Send the value to the server using fetch API                    
-                    const response = await fetch('https://blacksatta.onrender.com/save', {
+                    const response = await fetch('https://main-ratan.onrender.com/save', {
                         method: 'POST',
                         body: formData,
                     });
@@ -1652,7 +1652,7 @@
             const storedIdt = localStorage.getItem('type');
             formData.append('type',storedIdt);
             try {
-                const response = await fetch("https://blacksatta.onrender.com/editbid", {
+                const response = await fetch("https://main-ratan.onrender.com/editbid", {
                     method: "POST",
                     body: formData,
                 });
