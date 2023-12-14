@@ -432,7 +432,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="card-title">Bid History</h4>
-                        <div class="">
+                        <div class="table-responsive">
                             <table id="bidHistoryTable" class="table table-striped table-bordered">
                                 <thead>
                                 <tr>
@@ -442,6 +442,7 @@
                                     <th>Game Type</th>
                                     <th>Session</th>
                                     <th>Points</th>
+                                    <th>Bid Digit</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -685,7 +686,7 @@
                 });
 
                 if (response.ok) {
-                    window.location.href = "https://blacksatta73.github.io/site/dashboard";
+                    window.location.reload();
                     console.log("Amount Added");
                 } else {
                     console.error("Failed");
@@ -720,7 +721,7 @@
                 });
 
                 if (response.ok) {
-                    window.location.href = "https://blacksatta73.github.io/site/dashboard";
+                    window.location.reload();
                     console.log("Amount Added");
                 } else {
                     console.error("Failed");
@@ -903,7 +904,7 @@
                     if (!querySnapshotr.empty) {
                     querySnapshotr.forEach(doc => {
                         const data = doc.data();
-                        const { game_name,timestamp, points,oc , type } = data;
+                        const { game_name,timestamp,number, points,oc , type } = data;
                         const newRow = tableBodyr.insertRow();
                         
                         const cellNumber = newRow.insertCell();
@@ -912,12 +913,14 @@
                         const celltype = newRow.insertCell();
                         const cellsession = newRow.insertCell();
                         const cellpoint = newRow.insertCell();
+                        const cellnum = newRow.insertCell();
                         cellNumber.textContent = rowNumberr++;
                         celldate.textContent = timestamp.toDate().toDateString().substring(0,11);
                         cellgame.textContent = game_name;
                         celltype.textContent = type;
                         cellsession.textContent = oc;
                         cellpoint.textContent = points;
+                        cellnum.textContent = number;
                         
                 });
             }
